@@ -14,6 +14,12 @@ class UserServiceImpl @Inject()(dao: UserDao,
   import dao.dbConfig.profile.api._
   import dao.users
 
+  override def findAll(): Future[Seq[User]] = {
+    db run {
+      users.sortBy(_.id).result
+    }
+  }
+
   override def create(id: String, password: String): Future[User] = {
     for {
       idx <- databaseSupport.nextValue("User")
