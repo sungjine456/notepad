@@ -7,8 +7,12 @@ import play.api.mvc._
 import UserForms._
 import play.api.Environment
 
+import scala.concurrent.ExecutionContext
+
 @Singleton
-class UserController @Inject()(cc: ControllerComponents,
+class UserController @Inject()(implicit ec: ExecutionContext,
+                               cc: ControllerComponents,
+                               userService: UserService,
                                env: Environment) extends AbstractController(cc) {
 
   def signupView: Action[AnyContent] = Action {
@@ -17,6 +21,8 @@ class UserController @Inject()(cc: ControllerComponents,
 
   def signup: Action[AnyContent] = Action { implicit request =>
     val user = userRegisteredForm.bindFromRequest.get
+
+    userService.create(user.id, user.password)
 
     Ok("registered")
   }
