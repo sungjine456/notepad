@@ -18,4 +18,4 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.8" % "test",
   "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3" % "test")
 
-unmanagedResourceDirectories in Test <+= baseDirectory(_ / "target/web/public/test")
+unmanagedResourceDirectories in Test += baseDirectory(_ / "target/web/public/test").value
