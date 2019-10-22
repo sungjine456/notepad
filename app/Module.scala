@@ -1,6 +1,7 @@
 import com.google.inject.AbstractModule
 import java.time.Clock
 
+import com.notepad.post.{PostService, PostServiceImpl}
 import com.notepad.user.{UserService, UserServiceImpl}
 import services.{ApplicationTimer, AtomicCounter, Counter}
 
@@ -23,6 +24,7 @@ class Module extends AbstractModule {
     // application starts.
     bind(classOf[ApplicationTimer]).asEagerSingleton()
     bind(classOf[UserService]).to(classOf[UserServiceImpl])
+    bind(classOf[PostService]).to(classOf[PostServiceImpl])
     // Set AtomicCounter as the implementation for Counter.
     bind(classOf[Counter]).to(classOf[AtomicCounter])
   }
