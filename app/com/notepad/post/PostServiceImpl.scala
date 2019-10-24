@@ -26,4 +26,10 @@ class PostServiceImpl @Inject()(dao: PostDao,
       post
     }
   }
+
+  override def findAll(owner: Long): Future[Seq[Post]] = {
+    db run {
+      posts.result
+    }
+  }
 }

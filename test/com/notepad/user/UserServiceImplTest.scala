@@ -11,7 +11,7 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
     val sequenceService = new SequenceService(sequenceDao)
 
-    new UserServiceImpl(dao, sequenceService)
+    new UserServiceImpl(userDao, sequenceService)
   }
 
   "create(id: String, password: String)" should {
