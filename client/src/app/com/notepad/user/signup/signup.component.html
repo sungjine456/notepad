@@ -1,0 +1,8 @@
+<form [formGroup]="angForm">
+  <label for="id">아이디</label>
+  <input id="id" type="text" name="id" #id>
+  <label for="password">비밀번호</label>
+  <input id="password" type="password" name="password" #password>
+  <input type = "submit" value = "저장"  (click) = "onSubmit(id.value, password.value)" >
+</form>
+

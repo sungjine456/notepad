@@ -12,8 +12,6 @@ GET     /message                    controllers.AsyncController.message
 
 POST    /user                       com.notepad.user.UserController.signup
 
-GET     /signup                     com.notepad.user.UserController.signupView
-
 GET     /post                       com.notepad.post.PostController.postView
 POST    /post                       com.notepad.post.PostController.registered
 

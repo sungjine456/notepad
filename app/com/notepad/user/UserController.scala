@@ -15,10 +15,6 @@ class UserController @Inject()(implicit ec: ExecutionContext,
                                userService: UserService,
                                env: Environment) extends AbstractController(cc) {
 
-  def signupView: Action[AnyContent] = Action {
-    Ok(views.html.signup())
-  }
-
   def signup: Action[AnyContent] = Action { implicit request =>
     val user = userRegisteredForm.bindFromRequest.get
 
