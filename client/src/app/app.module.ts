@@ -7,12 +7,14 @@ import {HttpClientModule} from "@angular/common/http";
 import { SignupComponent } from './com/notepad/user/signup/signup.component';
 import { MainComponent } from './com/notepad/main/main.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { RegisteredComponent } from './com/notepad/post/registered/registered.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
-    MainComponent
+    MainComponent,
+    RegisteredComponent
   ],
   imports: [
     BrowserModule,

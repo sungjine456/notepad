@@ -12,7 +12,6 @@ GET     /message                    controllers.AsyncController.message
 
 POST    /user                       com.notepad.user.UserController.signup
 
-GET     /post                       com.notepad.post.PostController.postView
 POST    /post                       com.notepad.post.PostController.registered
 
 # Map static resources from the /public folder to the /assets URL path

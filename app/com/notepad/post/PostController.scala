@@ -15,10 +15,6 @@ class PostController @Inject()(implicit ec: ExecutionContext,
                                service: PostService,
                                env: Environment) extends AbstractController(cc) {
 
-  def postView: Action[AnyContent] = Action {
-    Ok(views.html.post())
-  }
-
   def registered: Action[AnyContent] = Action { implicit request =>
     val post = postRegisteredForm.bindFromRequest.get
 
