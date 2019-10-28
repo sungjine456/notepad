@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-registered',
@@ -10,7 +11,6 @@ import {HttpClient} from "@angular/common/http";
 export class RegisteredComponent implements OnInit {
 
   postForm: FormGroup;
-  private REST_API_SERVER = "http://localhost:9000";
 
   constructor(private fb: FormBuilder, private httpClient: HttpClient) {
     this.postForm = this.fb.group({
@@ -22,12 +22,11 @@ export class RegisteredComponent implements OnInit {
   }
 
   onSubmit(contents) {
-
     const body = {
       contents: contents
     };
 
-    const res = this.httpClient.post(this.REST_API_SERVER + "/post", body, { responseType: 'text'});
+    const res = this.httpClient.post(environment.server_url + "/post", body, { responseType: 'text'});
 
     res.subscribe((data) => {
       console.log(data);

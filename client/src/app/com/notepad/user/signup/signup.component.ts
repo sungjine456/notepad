@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-signup',
@@ -10,7 +11,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 export class SignupComponent implements OnInit {
 
   angForm: FormGroup;
-  private REST_API_SERVER = "http://localhost:9000";
 
   constructor(private fb: FormBuilder, private httpClient: HttpClient) {
     this.angForm = this.fb.group({
@@ -23,16 +23,14 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(id, password) {
-    console.log(id, password);
-
     const body = {
       id: id,
       password: password
     };
 
-    const a = this.httpClient.post(this.REST_API_SERVER + "/user", body, { responseType: 'text'});
+    const res = this.httpClient.post(environment.server_url + "/user", body, { responseType: 'text'});
 
-    a.subscribe((data) => {
+    res.subscribe((data) => {
       console.log(data);
     });
   }
