@@ -10,11 +10,11 @@ import {environment} from "../../../../../environments/environment";
 })
 export class SignupComponent implements OnInit {
 
-  angForm: FormGroup;
+  userForm: FormGroup;
 
   constructor(private fb: FormBuilder, private httpClient: HttpClient) {
-    this.angForm = this.fb.group({
-      email: [''],
+    this.userForm = this.fb.group({
+      id: [''],
       password: ['']
     });
   }
