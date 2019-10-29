@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MainComponent } from './main.component';
+import {MainComponent} from './main.component';
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -21,5 +21,11 @@ describe('MainComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it(`should have as title 'notepad'`, () => {
+    const fixture = TestBed.createComponent(MainComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app.title).toEqual('notepad');
   });
 });
