@@ -31,10 +31,13 @@ export class SignupComponent implements OnInit {
       password: password
     };
 
-    const res = this.httpClient.post(environment.server_url + "/user", body, { responseType: 'text'});
+    const res = this.httpClient.post(environment.server_url + "/user", body, {responseType: 'text'});
 
     res.subscribe((data) => {
-      if (data == "registered") this.router.navigate(['/'])
-    });
+        if (data == "registered") this.router.navigate(['/'])
+      },
+      (error) => {
+        alert("아이디를 다시 입력해주세요.")
+      });
   }
 }

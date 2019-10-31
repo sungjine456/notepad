@@ -15,12 +15,13 @@ class UserController @Inject()(implicit ec: ExecutionContext,
                                userService: UserService,
                                env: Environment) extends AbstractController(cc) {
 
-  def signup: Action[AnyContent] = Action { implicit request =>
+  def signup: Action[AnyContent] = Action async { implicit request =>
     val user = userRegisteredForm.bindFromRequest.get
 
-    userService.create(user.id, user.password)
-
-    Ok("registered")
+    userService.create(user.id, user.password) map {
+      case _: User => Ok("registered")
+      case _ => BadRequest
+    }
   }
 }
 
