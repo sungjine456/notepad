@@ -2,6 +2,7 @@ package com.notepad.user
 
 import com.notepad.common.{SequenceDao, SequenceService}
 import com.notepad.test.SupportDatabaseTest
+import org.postgresql.util.PSQLException
 import org.scalatestplus.play.PlaySpec
 
 class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
@@ -20,13 +21,19 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
       beforeFindAll.length mustBe 1
 
-      val user = await(service.create("id", "pass"))
+      val user = await(service.create("newUserId", "pass"))
 
       val afterFindAll: Seq[User] = await(service.findAll())
 
       afterFindAll.length mustBe 2
-      user.id mustBe "id"
+      user.id mustBe "newUserId"
       user.password mustBe "pass"
+    }
+
+    "failed" in {
+      a[PSQLException] must be thrownBy {
+        await(service.create("id", "pass"))
+      }
     }
   }
 

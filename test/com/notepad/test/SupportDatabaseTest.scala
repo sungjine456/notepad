@@ -52,7 +52,7 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach {
 
       val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
 
-      rows += User(1, "id", "password")
+      rows += User(1, "newUserId", "password")
     }
   }
 }
