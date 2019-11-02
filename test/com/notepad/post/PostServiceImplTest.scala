@@ -4,8 +4,6 @@ import com.notepad.common.{SequenceDao, SequenceService}
 import com.notepad.test.SupportDatabaseTest
 import org.scalatestplus.play.PlaySpec
 
-import scala.concurrent.Future
-
 class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
   val service: PostService = {
@@ -33,13 +31,9 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
   "findAll()" should {
     "succeed" in {
-      val result: Future[Seq[Post]] = for {
-        users <- service.findAll(1)
-      } yield users
+      val result: Seq[Post] = await(service.findAll(1))
 
-      result foreach { r =>
-        r.length mustBe 0
-      }
+      result.length mustBe 0
     }
   }
 }
