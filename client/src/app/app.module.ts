@@ -8,13 +8,15 @@ import { SignupComponent } from './com/notepad/user/signup/signup.component';
 import { MainComponent } from './com/notepad/main/main.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RegisteredComponent } from './com/notepad/post/registered/registered.component';
+import { ListComponent } from './com/notepad/user/list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
     MainComponent,
-    RegisteredComponent
+    RegisteredComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,

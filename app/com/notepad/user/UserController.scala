@@ -6,6 +6,8 @@ import play.api.data._
 import play.api.mvc._
 import UserForms._
 import play.api.Environment
+import User._
+import play.api.libs.json.Json
 
 import scala.concurrent.ExecutionContext
 
@@ -21,6 +23,13 @@ class UserController @Inject()(implicit ec: ExecutionContext,
     userService.create(user.id, user.password) map {
       case _: User => Ok("registered")
       case _ => BadRequest
+    }
+  }
+
+  def users: Action[AnyContent] = Action async {
+    userService.findAll() map {
+      case users: Seq[User] => Ok(Json.toJson(users))
+      case _ => NotFound
     }
   }
 }
