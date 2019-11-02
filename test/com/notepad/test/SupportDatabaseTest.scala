@@ -20,18 +20,13 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach {
   override protected def afterEach(): Unit = {
     super.afterEach()
 
-    for {
-      _ <- deleteUser()
-      _ <- deletePost()
-    } yield {}
+    await(deleteUser().map(_ => deletePost()))
   }
 
   override protected def beforeEach(): Unit = {
     super.beforeEach()
 
-    for {
-      _ <- addUser()
-    } yield {}
+    await(addUser())
   }
 
   private def deleteUser() = {
