@@ -32,7 +32,13 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
     "throw PSQLException when put short id" in {
       a[PSQLException] must be thrownBy {
-        await(service.create("id", "pass"))
+        await(service.create("id", "password123"))
+      }
+    }
+
+    "throw PSQLException when put short password" in {
+      a[PSQLException] must be thrownBy {
+        await(service.create("newUserId", "pass"))
       }
     }
   }
