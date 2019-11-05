@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../../environments/environment";
 import {Router} from "@angular/router";
@@ -17,18 +17,22 @@ export class SignupComponent implements OnInit {
               private httpClient: HttpClient,
               private router: Router) {
     this.userForm = this.fb.group({
-      id: [''],
-      password: ['']
+      id: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
   ngOnInit() {
   }
 
-  onSubmit(id, password) {
+  onSubmit() {
+    if (this.userForm.invalid) {
+      return;
+    }
+
     const body = {
-      id: id,
-      password: password
+      id: this.userForm.controls.id.value,
+      password: this.userForm.controls.password.value
     };
 
     const res = this.httpClient.post(environment.server_url + "/user", body, {responseType: 'text'});

@@ -1,7 +1,13 @@
 <form [formGroup]="userForm">
   <label for="id">아이디</label>
-  <input id="id" type="text" name="id" #id>
+  <input id="id" type="text" formControlName="id">
+  <span *ngIf="this.userForm.controls.id.hasError('required')">
+    아이디를 작성해주세요.
+  </span>
   <label for="password">비밀번호</label>
-  <input id="password" type="password" name="password" #password>
-  <input type = "submit" value = "저장"  (click) = "onSubmit(id.value, password.value)" >
+  <input id="password" type="password" formControlName="password">
+  <span *ngIf="this.userForm.controls.password.hasError('required')">
+    비밀번호를 작성해주세요.
+  </span>
+  <input type = "submit" value = "저장"  (click) = "onSubmit()" >
 </form>
