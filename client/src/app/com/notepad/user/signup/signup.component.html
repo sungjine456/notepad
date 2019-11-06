@@ -1,11 +1,11 @@
 <form [formGroup]="userForm">
   <label for="id">아이디</label>
-  <input id="id" type="text" formControlName="id">
+  <input id="id" type="text" formControlName="id" maxlength="12">
   <span *ngIf="this.userForm.controls.id.hasError('required')">
     아이디를 작성해주세요.
   </span>
   <label for="password">비밀번호</label>
-  <input id="password" type="password" formControlName="password">
+  <input id="password" type="password" formControlName="password" maxlength="20">
   <span *ngIf="this.userForm.controls.password.hasError('required')">
     비밀번호를 작성해주세요.
   </span>
