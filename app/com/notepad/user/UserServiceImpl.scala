@@ -21,6 +21,9 @@ class UserServiceImpl @Inject()(dao: UserDao,
   }
 
   override def create(id: String, password: String): Future[User] = {
+    require(checkString(id, 6, 12), "")
+    require(checkString(password, 8, 20), "")
+
     for {
       idx <- databaseSupport.nextValue("User")
       user <- db run {
@@ -31,5 +34,9 @@ class UserServiceImpl @Inject()(dao: UserDao,
     } yield {
       user
     }
+  }
+
+  private def checkString(str: String, min: Int, max: Int): Boolean = {
+    str != null && str.length >= min && str.length <= max
   }
 }

@@ -17,8 +17,8 @@ export class SignupComponent implements OnInit {
               private httpClient: HttpClient,
               private router: Router) {
     this.userForm = this.fb.group({
-      id: ['', Validators.required],
-      password: ['', Validators.required]
+      id: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
