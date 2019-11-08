@@ -20,17 +20,11 @@ class UserController @Inject()(implicit ec: ExecutionContext,
   def signup: Action[AnyContent] = Action async { implicit request =>
     val user = userRegisteredForm.bindFromRequest.get
 
-    userService.create(user.id, user.password) map {
-      case _: User => Ok("registered")
-      case _ => BadRequest
-    }
+    userService.create(user.id, user.password).map(_ => Ok)
   }
 
   def users: Action[AnyContent] = Action async {
-    userService.findAll() map {
-      case users: Seq[User] => Ok(Json.toJson(users))
-      case _ => NotFound
-    }
+    userService.findAll().map(users => Ok(Json.toJson(users)))
   }
 }
 
