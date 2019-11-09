@@ -9,7 +9,7 @@ import play.api.Environment
 import User._
 import play.api.libs.json.Json
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class UserController @Inject()(implicit ec: ExecutionContext,
@@ -20,7 +20,11 @@ class UserController @Inject()(implicit ec: ExecutionContext,
   def signup: Action[AnyContent] = Action async { implicit request =>
     val user = userRegisteredForm.bindFromRequest.get
 
-    userService.create(user.id, user.password).map(_ => Ok)
+    try {
+      userService.create(user.id, user.password).map(_ => Ok)
+    } catch {
+      case _: IllegalArgumentException => Future.successful(NotFound)
+    }
   }
 
   def users: Action[AnyContent] = Action async {
