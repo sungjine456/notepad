@@ -8,7 +8,7 @@
   <label for="password">비밀번호</label>
   <input id="password" type="password" formControlName="password" maxlength="20">
   <span *ngIf="this.userForm.controls.password.hasError('required') ||
-      this.userForm.controls.password.hasError('minlength')">
+      this.userForm.controls.password.hasError('pattern')">
     비밀번호를 8자 이상 작성해주세요.
   </span>
   <input type="submit" value="저장" (click)="onSubmit()">

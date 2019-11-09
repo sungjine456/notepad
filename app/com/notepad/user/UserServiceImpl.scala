@@ -22,7 +22,7 @@ class UserServiceImpl @Inject()(dao: UserDao,
 
   override def create(id: String, password: String): Future[User] = {
     require(checkString(id, 6, 12), s"$id is wrong id")
-    require(checkString(password, 8, 20), s"$password is wrong password")
+    require(checkPassword(password), s"$password is wrong password")
 
     for {
       idx <- databaseSupport.nextValue("User")
@@ -34,6 +34,12 @@ class UserServiceImpl @Inject()(dao: UserDao,
     } yield {
       user
     }
+  }
+
+  private def checkPassword(password: String): Boolean = {
+    val regex = "(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,20}".r
+
+    regex.findFirstIn(password).isDefined
   }
 
   private def checkString(str: String, min: Int, max: Int): Boolean = {
