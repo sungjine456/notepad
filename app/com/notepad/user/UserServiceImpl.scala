@@ -21,8 +21,8 @@ class UserServiceImpl @Inject()(dao: UserDao,
   }
 
   override def create(id: String, password: String): Future[User] = {
-    require(checkString(id, 6, 12), "")
-    require(checkString(password, 8, 20), "")
+    require(checkString(id, 6, 12), s"$id is wrong id")
+    require(checkString(password, 8, 20), s"$password is wrong password")
 
     for {
       idx <- databaseSupport.nextValue("User")
