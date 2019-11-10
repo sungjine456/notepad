@@ -5,7 +5,7 @@ import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
 import UserForms._
-import play.api.Environment
+import play.api.{Environment, Logger}
 import User._
 import play.api.libs.json.Json
 
@@ -17,13 +17,19 @@ class UserController @Inject()(implicit ec: ExecutionContext,
                                userService: UserService,
                                env: Environment) extends AbstractController(cc) {
 
+  val logger = Logger(this.getClass)
+
   def signup: Action[AnyContent] = Action async { implicit request =>
     val user = userRegisteredForm.bindFromRequest.get
+
+    logger.info(s"sign up = id : ${user.id}, password : ${user.password}")
 
     try {
       userService.create(user.id, user.password).map(_ => Ok)
     } catch {
-      case _: IllegalArgumentException => Future.successful(NotFound)
+      case _: IllegalArgumentException =>
+        logger.debug(s"sign up IllegalArgumentException = id : ${user.id}, password : ${user.password}")
+        Future.successful(NotFound)
     }
   }
 
