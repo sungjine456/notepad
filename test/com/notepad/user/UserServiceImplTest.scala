@@ -2,7 +2,6 @@ package com.notepad.user
 
 import com.notepad.common.{SequenceDao, SequenceService}
 import com.notepad.test.SupportDatabaseTest
-import org.postgresql.util.PSQLException
 import org.scalatestplus.play.PlaySpec
 
 class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
@@ -21,24 +20,42 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
       beforeFindAll.length mustBe 1
 
-      val user = await(service.create("newUserId", "pass"))
+      val user = await(service.create("newUserId", "pass123!"))
 
       val afterFindAll: Seq[User] = await(service.findAll())
 
       afterFindAll.length mustBe 2
       user.id mustBe "newUserId"
-      user.password mustBe "pass"
+      user.password mustBe "pass123!"
     }
 
-    "throw PSQLException when put short id" in {
-      a[PSQLException] must be thrownBy {
+    "throw IllegalArgumentException when put short id" in {
+      a[IllegalArgumentException] must be thrownBy {
         await(service.create("id", "password123"))
       }
     }
 
-    "throw PSQLException when put short password" in {
-      a[PSQLException] must be thrownBy {
+    "throw IllegalArgumentException when put short password" in {
+      a[IllegalArgumentException] must be thrownBy {
         await(service.create("newUserId", "pass"))
+      }
+    }
+
+    "throw IllegalArgumentException when put password without a number" in {
+      a[IllegalArgumentException] must be thrownBy {
+        await(service.create("newUserId", "pass!!!a"))
+      }
+    }
+
+    "throw IllegalArgumentException when put password without a string" in {
+      a[IllegalArgumentException] must be thrownBy {
+        await(service.create("newUserId", "1234123!@#"))
+      }
+    }
+
+    "throw IllegalArgumentException when put password without a special characters" in {
+      a[IllegalArgumentException] must be thrownBy {
+        await(service.create("newUserId", "pass1234"))
       }
     }
   }
