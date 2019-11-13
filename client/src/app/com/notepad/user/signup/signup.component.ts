@@ -31,6 +31,31 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
   }
 
+  onChange() {
+    const id = this.userForm.controls.id.value;
+
+    const res = this.httpClient.head(environment.server_url + "/user/" + id, {responseType: 'text'});
+
+    res.subscribe(() => {
+        let errors = this.userForm.controls.id.errors;
+
+        if (errors === null) {
+          errors = {existId: true};
+        } else {
+          errors["existId"] = true;
+        }
+        this.userForm.controls.id.setErrors(errors);
+      },
+      () => {
+        let errors = this.userForm.controls.id.errors;
+
+        if (this.userForm.controls.id.hasError("existId")) {
+          errors["existId"] = false;
+        }
+        this.userForm.controls.id.setErrors(errors);
+      });
+  }
+
   onSubmit() {
     if (this.userForm.invalid) {
       return;

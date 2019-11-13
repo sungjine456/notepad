@@ -67,4 +67,16 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
       result.length mustBe 1
     }
   }
+
+  "findById(id: String)" should {
+    "succeed" in {
+      val empty: Option[User] = await(service.findById("userId"))
+
+      empty.isEmpty mustBe true
+
+      val result: Option[User] = await(service.findById("newUserId"))
+
+      result.isDefined mustBe true
+    }
+  }
 }

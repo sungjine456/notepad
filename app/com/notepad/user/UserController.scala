@@ -36,6 +36,13 @@ class UserController @Inject()(implicit ec: ExecutionContext,
   def users: Action[AnyContent] = Action async {
     userService.findAll().map(users => Ok(Json.toJson(users)))
   }
+
+  def exist(id: String): Action[AnyContent] = Action async {
+    userService.findById(id).map {
+      case Some(_) => Ok
+      case _ => NotFound
+    }
+  }
 }
 
 object UserForms {

@@ -20,6 +20,12 @@ class UserServiceImpl @Inject()(dao: UserDao,
     }
   }
 
+  override def findById(id: String): Future[Option[User]] = {
+    db run {
+      users.filter(_.id === id).result.headOption
+    }
+  }
+
   override def create(id: String, password: String): Future[User] = {
     require(checkString(id, 6, 12), s"$id is wrong id")
     require(checkPassword(password), s"$password is wrong password")
