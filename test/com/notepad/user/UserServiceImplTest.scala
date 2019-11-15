@@ -20,13 +20,19 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
       beforeFindAll.length mustBe 1
 
-      val user = await(service.create("newUserId", "pass123!"))
+      val user = await(service.create("newUserId2", "pass123!"))
 
       val afterFindAll: Seq[User] = await(service.findAll())
 
       afterFindAll.length mustBe 2
-      user.id mustBe "newUserId"
+      user.id mustBe "newUserId2"
       user.password mustBe "pass123!"
+    }
+
+    "throw IllegalArgumentException when putting existing id" in {
+      a[IllegalArgumentException] must be thrownBy {
+        await(service.create("newUserId", "password123"))
+      }
     }
 
     "throw IllegalArgumentException when put short id" in {

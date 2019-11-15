@@ -30,7 +30,13 @@ class UserServiceImpl @Inject()(dao: UserDao,
     require(checkString(id, 6, 12), s"$id is wrong id")
     require(checkPassword(password), s"$password is wrong password")
 
+    val validate = findById(id) map {
+      case Some(_) => throw new IllegalArgumentException(s"$id is already exists.")
+      case _ =>
+    }
+
     for {
+      _ <- validate
       idx <- databaseSupport.nextValue("User")
       user <- db run {
         val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
