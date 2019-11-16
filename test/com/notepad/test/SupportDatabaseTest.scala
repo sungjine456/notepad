@@ -43,7 +43,7 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach {
 
   private def addUser() = {
     db run {
-      sequenceDao.sequences.filter(_.id === "User").map(_.value).update(1)
+      sequenceDao.sequences.filter(_.id === "User").map(_.value).update(2)
 
       val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
 
