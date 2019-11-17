@@ -3,7 +3,9 @@ CREATE TABLE "User"
 (
     "idx"        BIGINT PRIMARY KEY NOT NULL,
     "id"         VARCHAR(12)        NOT NULL,
-    "password"   VARCHAR(20)        NOT NULL
+    "password"   VARCHAR(20)        NOT NULL,
+    "updated"    TIME,
+    "registered" TIMESTAMP          NOT NULL
 );
 
 ALTER TABLE "User"

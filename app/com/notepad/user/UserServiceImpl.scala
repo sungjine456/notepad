@@ -1,5 +1,7 @@
 package com.notepad.user
 
+import java.util.Date
+
 import com.notepad.common.SequenceService
 import javax.inject.{Inject, Singleton}
 
@@ -30,6 +32,8 @@ class UserServiceImpl @Inject()(dao: UserDao,
     require(checkString(id, 6, 12), s"$id is wrong id")
     require(checkPassword(password), s"$password is wrong password")
 
+    val now  = new Date()
+
     val validate = findById(id) map {
       case Some(_) => throw new IllegalArgumentException(s"$id is already exists.")
       case _ =>
@@ -41,7 +45,7 @@ class UserServiceImpl @Inject()(dao: UserDao,
       user <- db run {
         val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
 
-        rows += User(idx, id, password)
+        rows += User(idx, id, password, None, now)
       }
     } yield {
       user

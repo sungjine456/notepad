@@ -1,5 +1,7 @@
 package com.notepad.test
 
+import java.util.Date
+
 import com.notepad.common.SequenceDao
 import com.notepad.post.PostDao
 import com.notepad.user.{User, UserDao}
@@ -14,8 +16,8 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach {
 
   import dbConfig.db
   import dbConfig.profile.api._
-  import userDao.users
   import postDao.posts
+  import userDao.users
 
   override protected def afterEach(): Unit = {
     super.afterEach()
@@ -47,7 +49,7 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach {
 
       val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
 
-      rows += User(1, "newUserId", "password")
+      rows += User(1, "newUserId", "password", None, new Date())
     }
   }
 }
