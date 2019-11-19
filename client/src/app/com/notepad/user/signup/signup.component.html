@@ -15,9 +15,18 @@
 
   <label for="password">비밀번호</label>
   <input id="password" type="password" formControlName="password" maxlength="20">
-  <span *ngIf="this.userForm.controls.password.hasError('required') ||
-      this.userForm.controls.password.hasError('pattern')">
-    비밀번호를 8자 이상 작성해주세요.
-  </span>
+  <div *ngIf="this.userForm.controls.password.errors">
+    <span *ngIf="this.userForm.controls.password.hasError('required') ||
+        this.userForm.controls.password.hasError('pattern')">
+      비밀번호를 8자 이상 작성해주세요.
+    </span>
+  </div>
+  <label for="confirm-password">비밀번호 확인</label>
+  <input id="confirm-password" type="password" formControlName="confirmPassword" maxlength="20">
+  <div *ngIf="this.userForm.controls.confirmPassword.errors">
+    <span *ngIf="this.userForm.controls.confirmPassword.hasError('mustMatch')">
+      비밀번호가 일치하지 않습니다
+    </span>
+  </div>
   <input type="submit" value="저장" (click)="onSubmit()">
 </form>

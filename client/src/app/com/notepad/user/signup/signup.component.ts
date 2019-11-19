@@ -24,8 +24,9 @@ export class SignupComponent implements OnInit {
       password: ['', [
         Validators.required,
         Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,20}/)
-      ]]
-    });
+      ]],
+      confirmPassword: ['']
+    }, {validator: MustMatch('password', 'confirmPassword')});
   }
 
   ngOnInit() {
@@ -74,5 +75,18 @@ export class SignupComponent implements OnInit {
       (error) => {
         alert("아이디나 비밀번호를 다시 확인해주세요.")
       });
+  }
+}
+
+export function MustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+
+    if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+      return;
+    }
+
+    matchingControl.setErrors(control.value !== matchingControl.value ? {mustMatch: true} : null);
   }
 }
