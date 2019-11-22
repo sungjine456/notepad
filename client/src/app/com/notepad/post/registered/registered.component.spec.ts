@@ -21,10 +21,10 @@ describe('RegisteredComponent', () => {
         RegisteredComponent
       ],
       providers: [
-        { provide: FormBuilder, useValue: formBuilder }
+        {provide: FormBuilder, useValue: formBuilder}
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

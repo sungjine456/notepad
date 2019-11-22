@@ -21,7 +21,7 @@ describe('SignupComponent', () => {
         SignupComponent
       ],
       providers: [
-        { provide: FormBuilder, useValue: formBuilder }
+        {provide: FormBuilder, useValue: formBuilder}
       ]
     }).compileComponents();
   }));

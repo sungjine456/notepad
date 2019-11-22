@@ -1,5 +1,5 @@
 <form [formGroup]="postForm">
   <label for="contents">내용</label>
-  <input id="contents" type="text" name="contents" #contents />
-  <input type = "submit" value = "저장"  (click) = "onSubmit(contents.value)" >
+  <input id="contents" type="text" name="contents" #contents/>
+  <input type="submit" value="저장" (click)="onSubmit(contents.value)">
 </form>

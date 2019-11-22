@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../../environments/environment";
@@ -29,7 +29,7 @@ export class RegisteredComponent implements OnInit {
       contents: contents
     };
 
-    const res = this.httpClient.post(environment.server_url + "/post", body, { responseType: 'text'});
+    const res = this.httpClient.post(environment.server_url + "/post", body, {responseType: 'text'});
 
     res.subscribe((data) => {
       if (data == "registered") this.router.navigate(['/'])

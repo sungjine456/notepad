@@ -72,7 +72,7 @@ export class SignupComponent implements OnInit {
     res.subscribe(() => {
         this.router.navigate(['/'])
       },
-      (error) => {
+      () => {
         alert("아이디나 비밀번호를 다시 확인해주세요.")
       });
   }
