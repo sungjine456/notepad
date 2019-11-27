@@ -32,7 +32,7 @@ class UserServiceImpl @Inject()(dao: UserDao,
     require(checkString(id, 6, 12), s"$id is wrong id")
     require(checkPassword(password), s"$password is wrong password")
 
-    val now  = new Date()
+    val now = new Date()
 
     val validate = findById(id) map {
       case Some(_) => throw new IllegalArgumentException(s"$id is already exists.")

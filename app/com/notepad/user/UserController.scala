@@ -1,13 +1,13 @@
 package com.notepad.user
 
+import com.notepad.user.User._
+import com.notepad.user.UserForms._
 import javax.inject._
 import play.api.data.Forms._
 import play.api.data._
-import play.api.mvc._
-import UserForms._
-import play.api.{Environment, Logger}
-import User._
 import play.api.libs.json.Json
+import play.api.mvc._
+import play.api.{Environment, Logger}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -54,4 +54,5 @@ object UserForms {
   )
 
   case class UserRegisteredFormDomain(id: String, password: String)
+
 }

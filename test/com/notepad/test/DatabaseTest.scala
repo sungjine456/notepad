@@ -1,9 +1,10 @@
 package com.notepad.test
 
-import scala.concurrent.ExecutionContext
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.inject.Injector
 import slick.jdbc.JdbcProfile
+
+import scala.concurrent.ExecutionContext
 
 trait DatabaseTest extends ApplicationTest {
 

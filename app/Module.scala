@@ -6,7 +6,7 @@ import com.notepad.user.{UserService, UserServiceImpl}
  * This class is a Guice module that tells Guice how to bind several
  * different types. This Guice module is created when the Play
  * application starts.
-
+ *
  * Play will automatically use any class called `Module` that is in
  * the root package. You can create modules in other locations by
  * adding `play.modules.enabled` settings to the `application.conf`
@@ -14,7 +14,7 @@ import com.notepad.user.{UserService, UserServiceImpl}
  */
 class Module extends AbstractModule {
 
-  override def configure() = {
+  override def configure(): Unit = {
     bind(classOf[UserService]).to(classOf[UserServiceImpl])
     bind(classOf[PostService]).to(classOf[PostServiceImpl])
   }
