@@ -1,5 +1,6 @@
-<form [formGroup]="postForm">
-  <label for="contents">내용</label>
-  <input id="contents" type="text" name="contents" #contents/>
-  <input type="submit" value="저장" (click)="onSubmit(contents.value)">
-</form>
+<section>
+  <form [formGroup]="postForm">
+    <input id="contents" type="text" placeholder="내용" name="contents" #contents/>
+    <button type="submit" (click)="onSubmit(contents.value)">저장</button>
+  </form>
+</section>
