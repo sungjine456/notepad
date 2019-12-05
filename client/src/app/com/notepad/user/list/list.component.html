@@ -1,16 +1,16 @@
 <section>
   <table>
     <thead>
-    <tr>
-      <th>아이디</th>
-      <th>가입일</th>
-    </tr>
+      <tr>
+        <th>아이디</th>
+        <th>가입일</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of list">
-      <td>{{user.id}}</td>
-      <td>{{this.datePipe.transform(user.registered, 'yyyy/MM/dd')}}</td>
-    </tr>
+      <tr *ngFor="let user of list">
+        <td>{{user.id}}</td>
+        <td>{{this.datePipe.transform(user.registered, 'yyyy/MM/dd')}}</td>
+      </tr>
     </tbody>
   </table>
 </section>
