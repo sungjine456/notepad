@@ -1,5 +1,7 @@
 package com.notepad.user
 
+import com.mohiva.play.silhouette.api.Silhouette
+import com.notepad.session.DefaultEnv
 import com.notepad.user.User._
 import com.notepad.user.UserForms._
 import javax.inject._
@@ -15,11 +17,12 @@ import scala.concurrent.{ExecutionContext, Future}
 class UserController @Inject()(implicit ec: ExecutionContext,
                                cc: ControllerComponents,
                                userService: UserService,
+                               silhouette: Silhouette[DefaultEnv],
                                env: Environment) extends AbstractController(cc) {
 
   val logger = Logger(this.getClass)
 
-  def signup: Action[AnyContent] = Action async { implicit request =>
+  def signup: Action[AnyContent] = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
     val user = userRegisteredForm.bindFromRequest.get
 
     logger.info(s"sign up = id : ${user.id}, password : ${user.password}")
@@ -33,11 +36,11 @@ class UserController @Inject()(implicit ec: ExecutionContext,
     }
   }
 
-  def users: Action[AnyContent] = Action async {
+  def users: Action[AnyContent] = silhouette.UnsecuredAction.async {
     userService.findAll().map(users => Ok(Json.toJson(users)))
   }
 
-  def exist(id: String): Action[AnyContent] = Action async {
+  def exist(id: String): Action[AnyContent] = silhouette.UnsecuredAction.async {
     userService.findById(id).map {
       case Some(_) => Ok
       case _ => NotFound
