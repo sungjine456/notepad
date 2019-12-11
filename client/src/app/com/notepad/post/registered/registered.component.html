@@ -1,4 +1,7 @@
 <section>
+  <h1>
+    글 작성
+  </h1>
   <form [formGroup]="postForm">
     <input id="contents" type="text" placeholder="내용" name="contents" #contents/>
     <button type="submit" (click)="onSubmit(contents.value)">저장</button>
