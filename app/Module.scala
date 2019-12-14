@@ -36,13 +36,13 @@ class Module(val environment: play.api.Environment,
     bind(classOf[Clock]).toInstance(Clock())
   }
 
-  private def registerBindings() {
+  private def registerBindings(): Unit = {
     val subConfig = config.get[Configuration]("notepad.bindings")
 
     val loader = environment.classLoader
     val bindings: Set[String] = subConfig.subKeys
 
-    def register[A](binding: String) {
+    def register[A](binding: String): Unit = {
       val typeName = binding.replace('/', '.')
       val typeClass = loader.loadClass(typeName).asInstanceOf[Class[A]]
 
