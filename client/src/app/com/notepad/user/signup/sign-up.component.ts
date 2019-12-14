@@ -5,11 +5,11 @@ import {environment} from "../../../../../environments/environment";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignUpComponent implements OnInit {
 
   userForm: FormGroup;
 

@@ -1,7 +1,7 @@
 package com.notepad.user
 
 import com.mohiva.play.silhouette.api.Silhouette
-import com.notepad.session.DefaultEnv
+import com.notepad.security.DefaultEnv
 import com.notepad.user.User._
 import com.notepad.user.UserForms._
 import javax.inject._
@@ -22,7 +22,7 @@ class UserController @Inject()(implicit ec: ExecutionContext,
 
   val logger = Logger(this.getClass)
 
-  def signup: Action[AnyContent] = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
+  def signUp: Action[AnyContent] = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
     val user = userRegisteredForm.bindFromRequest.get
 
     logger.info(s"sign up = id : ${user.id}, password : ${user.password}")
@@ -49,13 +49,13 @@ class UserController @Inject()(implicit ec: ExecutionContext,
 }
 
 object UserForms {
+
+  case class UserRegisteredFormDomain(id: String, password: String)
+
   val userRegisteredForm = Form(
     mapping(
       "id" -> text,
       "password" -> text
     )(UserRegisteredFormDomain.apply)(UserRegisteredFormDomain.unapply)
   )
-
-  case class UserRegisteredFormDomain(id: String, password: String)
-
 }

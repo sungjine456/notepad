@@ -6,7 +6,7 @@ import com.mohiva.play.silhouette.impl.authenticators.{BearerTokenAuthenticator,
 import com.mohiva.play.silhouette.impl.util.SecureRandomIDGenerator
 import com.mohiva.play.silhouette.persistence.repositories.CacheAuthenticatorRepository
 import com.notepad.post.{PostService, PostServiceImpl}
-import com.notepad.session.{DefaultEnv, SessionServiceImpl}
+import com.notepad.security.{DefaultEnv, SecurityServiceImpl}
 import com.notepad.user.{UserService, UserServiceImpl}
 import play.api.Configuration
 
@@ -82,7 +82,7 @@ class Module(val environment: play.api.Environment,
   }
 
   @Provides
-  def createEnvironment(securityManager: SessionServiceImpl,
+  def createEnvironment(securityManager: SecurityServiceImpl,
                         authenticatorService: AuthenticatorService[BearerTokenAuthenticator],
                         bus: EventBus): Environment[DefaultEnv] = {
 

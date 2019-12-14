@@ -1,7 +1,7 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
-POST        /user             com.notepad.user.UserController.signup
+POST        /user             com.notepad.user.UserController.signUp
 HEAD        /user/:id         com.notepad.user.UserController.exist(id: String)
 GET         /user/list        com.notepad.user.UserController.users
 

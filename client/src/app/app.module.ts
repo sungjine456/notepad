@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {SignupComponent} from './com/notepad/user/signup/signup.component';
+import {SignUpComponent} from './com/notepad/user/signup/sign-up.component';
 import {MainComponent} from './com/notepad/main/main.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RegisteredComponent} from './com/notepad/post/registered/registered.component';
@@ -14,7 +14,7 @@ import {HttpInterceptorService} from "./com/notepad/common/HttpInterceptorServic
 @NgModule({
   declarations: [
     AppComponent,
-    SignupComponent,
+    SignUpComponent,
     MainComponent,
     RegisteredComponent,
     ListComponent

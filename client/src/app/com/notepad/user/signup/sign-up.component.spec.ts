@@ -1,13 +1,13 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SignupComponent} from './signup.component';
+import {SignUpComponent} from './sign-up.component';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-describe('SignupComponent', () => {
-  let component: SignupComponent;
-  let fixture: ComponentFixture<SignupComponent>;
+describe('SignUpComponent', () => {
+  let component: SignUpComponent;
+  let fixture: ComponentFixture<SignUpComponent>;
   const formBuilder: FormBuilder = new FormBuilder();
 
   beforeEach(async(() => {
@@ -18,7 +18,7 @@ describe('SignupComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [
-        SignupComponent
+        SignUpComponent
       ],
       providers: [
         {provide: FormBuilder, useValue: formBuilder}
@@ -27,7 +27,7 @@ describe('SignupComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SignupComponent);
+    fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
 
     component.userForm = formBuilder.group({

@@ -25,12 +25,12 @@ class PostController @Inject()(implicit ec: ExecutionContext,
 }
 
 object PostForms {
+
+  case class PostRegisteredFormDomain(contents: String)
+
   val postRegisteredForm = Form(
     mapping(
       "contents" -> text
     )(PostRegisteredFormDomain.apply)(PostRegisteredFormDomain.unapply)
   )
-
-  case class PostRegisteredFormDomain(contents: String)
-
 }

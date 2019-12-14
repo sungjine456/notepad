@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SignupComponent} from "./com/notepad/user/signup/signup.component";
+import {SignUpComponent} from "./com/notepad/user/signup/sign-up.component";
 import {MainComponent} from "./com/notepad/main/main.component";
 import {RegisteredComponent} from "./com/notepad/post/registered/registered.component";
 import {ListComponent} from "./com/notepad/user/list/list.component";
 
 const routes: Routes = [
   {
-    path: 'signup',
-    component: SignupComponent
+    path: 'signUp',
+    component: SignUpComponent
   },
   {
     path: 'registered',
