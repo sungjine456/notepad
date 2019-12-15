@@ -10,11 +10,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RegisteredComponent} from './com/notepad/post/registered/registered.component';
 import {ListComponent} from './com/notepad/user/list/list.component';
 import {HttpInterceptorService} from "./com/notepad/common/HttpInterceptorService";
+import {SignInComponent} from "./com/notepad/user/signin/sign-in.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     SignUpComponent,
+    SignInComponent,
     MainComponent,
     RegisteredComponent,
     ListComponent

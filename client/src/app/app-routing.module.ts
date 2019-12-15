@@ -4,8 +4,13 @@ import {SignUpComponent} from "./com/notepad/user/signup/sign-up.component";
 import {MainComponent} from "./com/notepad/main/main.component";
 import {RegisteredComponent} from "./com/notepad/post/registered/registered.component";
 import {ListComponent} from "./com/notepad/user/list/list.component";
+import {SignInComponent} from "./com/notepad/user/signin/sign-in.component";
 
 const routes: Routes = [
+  {
+    path: 'signIn',
+    component: SignInComponent
+  },
   {
     path: 'signUp',
     component: SignUpComponent

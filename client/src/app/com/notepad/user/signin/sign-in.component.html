@@ -1,0 +1,23 @@
+<section>
+  <h1>
+    로그인
+  </h1>
+  <form [formGroup]="userForm">
+    <input id="id" type="text" placeholder="아이디" formControlName="id" maxlength="12">
+    <div class="error-message" *ngIf="!this.userForm.controls.id.pristine && this.userForm.controls.id.errors">
+    <span *ngIf="this.userForm.controls.id.hasError('required') ||
+        this.userForm.controls.id.hasError('minlength')">
+      아이디를 6자 이상 작성해주세요.
+    </span>
+    </div>
+    <input id="password" type="password" placeholder="비밀번호" formControlName="password" maxlength="20">
+    <div class="error-message"
+         *ngIf="!this.userForm.controls.password.pristine && this.userForm.controls.password.errors">
+    <span *ngIf="this.userForm.controls.password.hasError('required') ||
+        this.userForm.controls.password.hasError('pattern')">
+      비밀번호를 8자 이상 작성해주세요.
+    </span>
+    </div>
+    <button type="submit" (click)="onSubmit()">로그인</button>
+  </form>
+</section>
