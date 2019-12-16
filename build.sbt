@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "42.2.8",
   "com.typesafe.play" %% "play-slick" % "4.0.2",
   "com.typesafe.play" %% "play-slick-evolutions" % "4.0.2",
+  "net.codingwell" %% "scala-guice" % "4.2.6",
   "com.mohiva" %% "play-silhouette" % "6.1.1",
   "com.mohiva" %% "play-silhouette-persistence" % "6.1.1",
   "com.mohiva" %% "play-silhouette-password-bcrypt" % "6.1.1",

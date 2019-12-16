@@ -1,6 +1,6 @@
-import com.google.inject.{AbstractModule, Provides, TypeLiteral}
+import com.google.inject.{AbstractModule, Provides}
 import com.mohiva.play.silhouette.api.services.AuthenticatorService
-import com.mohiva.play.silhouette.api.util.{CacheLayer, Clock, IDGenerator}
+import com.mohiva.play.silhouette.api.util._
 import com.mohiva.play.silhouette.api.{Environment, EventBus, Silhouette, SilhouetteProvider}
 import com.mohiva.play.silhouette.impl.authenticators.{BearerTokenAuthenticator, BearerTokenAuthenticatorService, BearerTokenAuthenticatorSettings}
 import com.mohiva.play.silhouette.impl.util.SecureRandomIDGenerator
@@ -8,6 +8,7 @@ import com.mohiva.play.silhouette.persistence.repositories.CacheAuthenticatorRep
 import com.notepad.post.{PostService, PostServiceImpl}
 import com.notepad.security.{DefaultEnv, SecurityServiceImpl}
 import com.notepad.user.{UserService, UserServiceImpl}
+import net.codingwell.scalaguice.ScalaModule
 import play.api.Configuration
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -24,16 +25,17 @@ import scala.concurrent.duration.DurationLong
  * configuration file.
  */
 class Module(val environment: play.api.Environment,
-             val config: Configuration) extends AbstractModule {
+             val config: Configuration) extends AbstractModule with ScalaModule {
 
   override def configure(): Unit = {
     registerBindings()
 
-    bind(classOf[UserService]).to(classOf[UserServiceImpl])
-    bind(classOf[PostService]).to(classOf[PostServiceImpl])
-    bind(new TypeLiteral[Silhouette[DefaultEnv]] {}).to(new TypeLiteral[SilhouetteProvider[DefaultEnv]] {})
-    bind(classOf[IDGenerator]).toInstance(new SecureRandomIDGenerator)
-    bind(classOf[Clock]).toInstance(Clock())
+    bind[UserService].to[UserServiceImpl]
+    bind[PostService].to[PostServiceImpl]
+    bind[Silhouette[DefaultEnv]].to[SilhouetteProvider[DefaultEnv]]
+    bind[IDGenerator] toInstance new SecureRandomIDGenerator
+    bind[EventBus] toInstance EventBus()
+    bind[Clock] toInstance Clock()
   }
 
   private def registerBindings(): Unit = {
@@ -77,19 +79,18 @@ class Module(val environment: play.api.Environment,
 
     val repository = new CacheAuthenticatorRepository[BearerTokenAuthenticator](cache)
 
-    new BearerTokenAuthenticatorService(
-      authenticatorSettings, repository, generator, clock)
+    new BearerTokenAuthenticatorService(authenticatorSettings, repository, generator, clock)
   }
 
   @Provides
-  def createEnvironment(securityManager: SecurityServiceImpl,
+  def createEnvironment(securityService: SecurityServiceImpl,
                         authenticatorService: AuthenticatorService[BearerTokenAuthenticator],
-                        bus: EventBus): Environment[DefaultEnv] = {
+                        eventBus: EventBus): Environment[DefaultEnv] = {
 
     Environment[DefaultEnv](
-      securityManager,
+      securityService,
       authenticatorService,
       Seq(),
-      bus)
+      eventBus)
   }
 }
