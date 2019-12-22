@@ -3,10 +3,10 @@ import com.mohiva.play.silhouette.api.services.AuthenticatorService
 import com.mohiva.play.silhouette.api.util._
 import com.mohiva.play.silhouette.api.{Environment, EventBus, Silhouette, SilhouetteProvider}
 import com.mohiva.play.silhouette.impl.authenticators.{BearerTokenAuthenticator, BearerTokenAuthenticatorService, BearerTokenAuthenticatorSettings}
-import com.mohiva.play.silhouette.impl.util.SecureRandomIDGenerator
+import com.mohiva.play.silhouette.impl.util.{PlayCacheLayer, SecureRandomIDGenerator}
 import com.mohiva.play.silhouette.persistence.repositories.CacheAuthenticatorRepository
 import com.notepad.post.{PostService, PostServiceImpl}
-import com.notepad.security.{DefaultEnv, SecurityServiceImpl}
+import com.notepad.security.{DefaultEnv, SecurityService, SecurityServiceImpl}
 import com.notepad.user.{UserService, UserServiceImpl}
 import net.codingwell.scalaguice.ScalaModule
 import play.api.Configuration
@@ -18,33 +18,14 @@ class Module(val environment: play.api.Environment,
              val config: Configuration) extends AbstractModule with ScalaModule {
 
   override def configure(): Unit = {
-    registerBindings()
-
     bind[UserService].to[UserServiceImpl]
     bind[PostService].to[PostServiceImpl]
+    bind[SecurityService].to[SecurityServiceImpl]
     bind[Silhouette[DefaultEnv]].to[SilhouetteProvider[DefaultEnv]]
+    bind[CacheLayer].to[PlayCacheLayer]
     bind[IDGenerator] toInstance new SecureRandomIDGenerator
     bind[EventBus] toInstance EventBus()
     bind[Clock] toInstance Clock()
-  }
-
-  private def registerBindings(): Unit = {
-    val subConfig = config.get[Configuration]("notepad.bindings")
-
-    val loader = environment.classLoader
-    val bindings: Set[String] = subConfig.subKeys
-
-    def register[A](binding: String): Unit = {
-      val typeName = binding.replace('/', '.')
-      val typeClass = loader.loadClass(typeName).asInstanceOf[Class[A]]
-
-      val implName = subConfig.get[String](binding).replace('/', '.')
-      val implClass = loader.loadClass(implName).asSubclass(typeClass)
-
-      bind(typeClass) to implClass
-    }
-
-    bindings.foreach(register)
   }
 
   def authenticatorSettings: BearerTokenAuthenticatorSettings = {
