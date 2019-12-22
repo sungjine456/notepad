@@ -1,8 +1,7 @@
 package com.notepad.user
 
 import com.mohiva.play.silhouette.api.Silhouette
-import com.notepad.security.DefaultEnv
-import com.notepad.user.User._
+import com.notepad.security.{DefaultEnv, SecuredController}
 import com.notepad.user.UserForms._
 import javax.inject._
 import play.api.data.Forms._
@@ -17,12 +16,13 @@ import scala.concurrent.{ExecutionContext, Future}
 class UserController @Inject()(implicit ec: ExecutionContext,
                                cc: ControllerComponents,
                                userService: UserService,
-                               silhouette: Silhouette[DefaultEnv],
-                               env: Environment) extends AbstractController(cc) {
+                               val silhouette: Silhouette[DefaultEnv],
+                               env: Environment) extends AbstractController(cc)
+  with SecuredController[DefaultEnv] {
 
   val logger = Logger(this.getClass)
 
-  def signUp: Action[AnyContent] = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
+  def signUp: Action[AnyContent] = UnsecuredAction.async { implicit request: Request[AnyContent] =>
     val user = userRegisteredForm.bindFromRequest.get
 
     logger.info(s"sign up = id : ${user.id}, password : ${user.password}")
@@ -36,11 +36,11 @@ class UserController @Inject()(implicit ec: ExecutionContext,
     }
   }
 
-  def users: Action[AnyContent] = silhouette.UnsecuredAction.async {
+  def users: Action[AnyContent] = SecuredAction async {
     userService.findAll().map(users => Ok(Json.toJson(users)))
   }
 
-  def exist(id: String): Action[AnyContent] = silhouette.UnsecuredAction.async {
+  def exist(id: String): Action[AnyContent] = UnsecuredAction async {
     userService.findById(id).map {
       case Some(_) => Ok
       case _ => NotFound
