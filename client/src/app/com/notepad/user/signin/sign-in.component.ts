@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../../environments/environment";
 import {Router} from "@angular/router";
+import {SessionData} from "../../session/SessionData";
 
 @Component({
   selector: 'app-sign-in',
@@ -41,9 +42,11 @@ export class SignInComponent implements OnInit {
       password: this.userForm.controls.password.value
     };
 
-    const res = this.httpClient.post(environment.server_url + "/api/auth/signIn", body, {responseType: 'text'});
+    const res = this.httpClient.post(environment.server_url + "/api/auth/signIn", body);
 
-    res.subscribe(() => {
+    res.subscribe((data: SessionData) => {
+        sessionStorage.setItem("token", data.token);
+
         this.router.navigate(['/user/list'])
       },
       () => {
