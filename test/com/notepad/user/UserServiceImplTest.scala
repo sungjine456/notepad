@@ -75,38 +75,32 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
   }
 
   "findById(id: String)" should {
-    "succeed" in {
-      val empty: Option[User] = await(service.findById("userId"))
+    "empty" in {
+      await(service.findById("userId")).isEmpty mustBe true
+    }
 
-      empty.isEmpty mustBe true
-
-      val result: Option[User] = await(service.findById("newUserId"))
-
-      result.isDefined mustBe true
+    "exists" in {
+      await(service.findById("newUserId")).isDefined mustBe true
     }
   }
 
   "findByIdx(idx: Long)" should {
-    "succeed" in {
-      val empty: Option[User] = await(service.findByIdx(100L))
+    "empty" in {
+      await(service.findByIdx(100L)).isEmpty mustBe true
+    }
 
-      empty.isEmpty mustBe true
-
-      val result: Option[User] = await(service.findByIdx(1L))
-
-      result.isDefined mustBe true
+    "exists" in {
+      await(service.findByIdx(1L)).isDefined mustBe true
     }
   }
 
   "findByIdAndPassword(id: String, password: String)" should {
-    "succeed" in {
-      val empty: Option[User] = await(service.findByIdAndPassword("userId", "password"))
+    "empty" in {
+      await(service.findByIdAndPassword("userId", "password")).isEmpty mustBe true
+    }
 
-      empty.isEmpty mustBe true
-
-      val result: Option[User] = await(service.findByIdAndPassword("newUserId", "password"))
-
-      result.isDefined mustBe true
+    "exists" in {
+      await(service.findByIdAndPassword("newUserId", "password")).isDefined mustBe true
     }
   }
 }
