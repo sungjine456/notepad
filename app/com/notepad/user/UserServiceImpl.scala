@@ -2,6 +2,7 @@ package com.notepad.user
 
 import java.util.Date
 
+import com.mohiva.play.silhouette.api.util.PasswordHasher
 import com.notepad.common.SequenceService
 import javax.inject.{Inject, Singleton}
 
@@ -9,7 +10,8 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class UserServiceImpl @Inject()(dao: UserDao,
-                                databaseSupport: SequenceService
+                                databaseSupport: SequenceService,
+                                hasher: PasswordHasher
                                )(implicit ec: ExecutionContext) extends UserService {
 
   import dao.dbConfig.db
@@ -35,8 +37,10 @@ class UserServiceImpl @Inject()(dao: UserDao,
   }
 
   override def findByIdAndPassword(id: String, password: String): Future[Option[User]] = {
+    val passwordInfo = hasher.hash(Seq(id, password).mkString(":"))
+
     db run {
-      users.filter(user => user.id === id && user.password === password).result.headOption
+      users.filter(user => user.id === id && user.password === passwordInfo.password).result.headOption
     }
   }
 
@@ -55,9 +59,11 @@ class UserServiceImpl @Inject()(dao: UserDao,
       _ <- validate
       idx <- databaseSupport.nextValue("User")
       user <- db run {
+        val credential = hasher.hash(Seq(id, password).mkString(":"))
+
         val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
 
-        rows += User(idx, id, password, None, now)
+        rows += User(idx, id, credential.password, None, now)
       }
     } yield {
       user
