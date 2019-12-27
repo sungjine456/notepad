@@ -4,9 +4,10 @@ import java.nio.charset.StandardCharsets.UTF_8
 import java.util.Base64
 
 import com.mohiva.play.silhouette.api.util.{PasswordHasher, PasswordInfo}
+import com.notepad.security.PasswordHasherImpl._
+import io.github.nremond.PBKDF2
 import javax.inject.Inject
 import play.api.Configuration
-import io.github.nremond.PBKDF2
 
 class PasswordHasherImpl @Inject()(val config: Configuration) extends PasswordHasher {
 
@@ -18,7 +19,7 @@ class PasswordHasherImpl @Inject()(val config: Configuration) extends PasswordHa
     require(plainPassword != null, "Missing argument 'plainPassword'.")
 
     val (id, password) = {
-      val values = plainPassword.split(":", 2)
+      val values = plainPassword.split(Separator, 2)
 
       if (values.length == 2) {
         (values.head, values.last)
@@ -45,4 +46,9 @@ class PasswordHasherImpl @Inject()(val config: Configuration) extends PasswordHa
 
     passwordInfo.salt.map(_ == salt)
   }
+}
+
+object PasswordHasherImpl {
+
+  val Separator: String = ":"
 }

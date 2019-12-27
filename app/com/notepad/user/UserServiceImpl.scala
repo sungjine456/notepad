@@ -2,8 +2,9 @@ package com.notepad.user
 
 import java.util.Date
 
-import com.mohiva.play.silhouette.api.util.PasswordHasher
+import com.mohiva.play.silhouette.api.util.{PasswordHasher, PasswordInfo}
 import com.notepad.common.SequenceService
+import com.notepad.security.PasswordHasherImpl.Separator
 import javax.inject.{Inject, Singleton}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -37,7 +38,7 @@ class UserServiceImpl @Inject()(dao: UserDao,
   }
 
   override def findByIdAndPassword(id: String, password: String): Future[Option[User]] = {
-    val passwordInfo = hasher.hash(Seq(id, password).mkString(":"))
+    val passwordInfo = makePasswordInfo(id, password)
 
     db run {
       users.filter(user => user.id === id && user.password === passwordInfo.password).result.headOption
@@ -59,11 +60,11 @@ class UserServiceImpl @Inject()(dao: UserDao,
       _ <- validate
       idx <- databaseSupport.nextValue("User")
       user <- db run {
-        val credential = hasher.hash(Seq(id, password).mkString(":"))
+        val passwordInfo = makePasswordInfo(id, password)
 
         val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
 
-        rows += User(idx, id, credential.password, None, now)
+        rows += User(idx, id, passwordInfo.password, None, now)
       }
     } yield {
       user
@@ -78,5 +79,9 @@ class UserServiceImpl @Inject()(dao: UserDao,
 
   private def checkString(str: String, min: Int, max: Int): Boolean = {
     str != null && str.length >= min && str.length <= max
+  }
+
+  private def makePasswordInfo(id: String, password: String): PasswordInfo = {
+    hasher.hash(Seq(id, password).mkString(Separator))
   }
 }
