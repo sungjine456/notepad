@@ -1,6 +1,7 @@
 package com.notepad.user
 
 import com.notepad.common.{SequenceDao, SequenceService}
+import com.notepad.security.PasswordHasherImpl.Separator
 import com.notepad.test.SupportDatabaseTest
 import org.scalatestplus.play.PlaySpec
 
@@ -11,22 +12,27 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
     val sequenceService = new SequenceService(sequenceDao)
 
-    new UserServiceImpl(userDao, sequenceService)
+    new UserServiceImpl(userDao, sequenceService, hasher)
   }
 
   "create(id: String, password: String)" should {
     "succeed" in {
+      val id = "newUserId2"
+      val password = "pass123!"
+
       val beforeFindAll: Seq[User] = await(service.findAll())
 
       beforeFindAll.length mustBe 1
 
-      val user = await(service.create("newUserId2", "pass123!"))
+      val user = await(service.create(id, password))
 
       val afterFindAll: Seq[User] = await(service.findAll())
 
+      val passwordInfo = hasher.hash(Seq(id, password).mkString(Separator))
+
       afterFindAll.length mustBe 2
-      user.id mustBe "newUserId2"
-      user.password mustBe "pass123!"
+      user.id mustBe id
+      user.password mustBe passwordInfo.password
     }
 
     "throw IllegalArgumentException when putting existing id" in {

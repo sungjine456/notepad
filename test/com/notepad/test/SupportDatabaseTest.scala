@@ -4,10 +4,11 @@ import java.util.Date
 
 import com.notepad.common.SequenceDao
 import com.notepad.post.PostDao
+import com.notepad.security.PasswordHasherImpl.Separator
 import com.notepad.user.{User, UserDao}
 import org.scalatest.{BeforeAndAfterEach, Suite}
 
-trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach {
+trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with ConfigurationTest {
   this: Suite =>
 
   val userDao = new UserDao(provider)
@@ -45,11 +46,15 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach {
 
   private def addUser() = {
     db run {
+      val id = "newUserId"
+
       sequenceDao.sequences.filter(_.id === "User").map(_.value).update(2)
 
       val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
 
-      rows += User(1, "newUserId", "password", None, new Date())
+      val passwordInfo = hasher.hash(Seq(id, "password").mkString(Separator))
+
+      rows += User(1, id, passwordInfo.password, None, new Date())
     }
   }
 }
