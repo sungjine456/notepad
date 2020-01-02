@@ -30,8 +30,7 @@ export class RegisteredComponent implements OnInit {
     };
 
     const res = this.httpClient.post(environment.server_url + "/post", body, {
-      responseType: 'text',
-      headers: {'X-Auth-Token': sessionStorage.getItem("token")}
+      responseType: 'text'
     });
 
     res.subscribe((data) => {

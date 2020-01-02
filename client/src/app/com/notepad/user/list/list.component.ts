@@ -19,9 +19,7 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    const res = this.httpClient.get(environment.server_url + "/user/list", {
-      headers: {'X-Auth-Token': sessionStorage.getItem("token")}
-    });
+    const res = this.httpClient.get(environment.server_url + "/user/list");
 
     res.subscribe((data: Array<User>) => {
       data.forEach(value => {

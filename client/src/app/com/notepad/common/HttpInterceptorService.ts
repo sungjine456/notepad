@@ -10,7 +10,16 @@ export class HttpInterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
+    const token = sessionStorage.getItem("token");
+    let cloneReq = req;
+
+    if (token) {
+      cloneReq = req.clone({
+        headers: req.headers.set("X-Auth-Token", token)
+      });
+    }
+
+    return next.handle(cloneReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 404 && !error.url.includes("/user/")) {
           this.router.navigateByUrl("/");
