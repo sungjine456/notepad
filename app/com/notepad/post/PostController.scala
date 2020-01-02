@@ -1,6 +1,8 @@
 package com.notepad.post
 
+import com.mohiva.play.silhouette.api.Silhouette
 import com.notepad.post.PostForms._
+import com.notepad.security.{DefaultEnv, SecuredController}
 import javax.inject._
 import play.api.Environment
 import play.api.data.Forms._
@@ -13,9 +15,11 @@ import scala.concurrent.ExecutionContext
 class PostController @Inject()(implicit ec: ExecutionContext,
                                cc: ControllerComponents,
                                service: PostService,
-                               env: Environment) extends AbstractController(cc) {
+                               val silhouette: Silhouette[DefaultEnv],
+                               env: Environment) extends AbstractController(cc)
+  with SecuredController[DefaultEnv]{
 
-  def registered: Action[AnyContent] = Action { implicit request =>
+  def registered: Action[AnyContent] = SecuredAction { implicit request =>
     val post = postRegisteredForm.bindFromRequest.get
 
     service.registered(1L, post.contents)

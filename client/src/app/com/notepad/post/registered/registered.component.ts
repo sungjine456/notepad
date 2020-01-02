@@ -29,7 +29,10 @@ export class RegisteredComponent implements OnInit {
       contents: contents
     };
 
-    const res = this.httpClient.post(environment.server_url + "/post", body, {responseType: 'text'});
+    const res = this.httpClient.post(environment.server_url + "/post", body, {
+      responseType: 'text',
+      headers: {'X-Auth-Token': sessionStorage.getItem("token")}
+    });
 
     res.subscribe((data) => {
       if (data == "registered") this.router.navigate(['/'])
