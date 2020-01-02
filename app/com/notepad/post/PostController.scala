@@ -28,7 +28,7 @@ object PostForms {
 
   case class PostRegisteredFormDomain(contents: String)
 
-  val postRegisteredForm = Form(
+  val postRegisteredForm: Form[PostRegisteredFormDomain] = Form(
     mapping(
       "contents" -> text
     )(PostRegisteredFormDomain.apply)(PostRegisteredFormDomain.unapply)

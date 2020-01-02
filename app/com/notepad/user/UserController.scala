@@ -20,7 +20,7 @@ class UserController @Inject()(implicit ec: ExecutionContext,
                                env: Environment) extends AbstractController(cc)
   with SecuredController[DefaultEnv] {
 
-  val logger = Logger(this.getClass)
+  val logger: Logger = Logger(this.getClass)
 
   def signUp: Action[AnyContent] = UnsecuredAction.async { implicit request: Request[AnyContent] =>
     val user = userRegisteredForm.bindFromRequest.get
@@ -52,7 +52,7 @@ object UserForms {
 
   case class UserRegisteredFormDomain(id: String, password: String)
 
-  val userRegisteredForm = Form(
+  val userRegisteredForm: Form[UserRegisteredFormDomain] = Form(
     mapping(
       "id" -> text,
       "password" -> text
