@@ -1,0 +1,17 @@
+<section>
+  <h1>
+    글 목록
+  </h1>
+  <table>
+    <thead>
+      <tr>
+        <th>내용</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let post of posts">
+        <td>{{post.contents}}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

@@ -8,9 +8,10 @@ import {SignUpComponent} from './com/notepad/user/signup/sign-up.component';
 import {MainComponent} from './com/notepad/main/main.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RegisteredComponent} from './com/notepad/post/registered/registered.component';
-import {ListComponent} from './com/notepad/user/list/list.component';
+import {UserListComponent} from './com/notepad/user/list/user-list.component';
 import {HttpInterceptorService} from "./com/notepad/common/HttpInterceptorService";
 import {SignInComponent} from "./com/notepad/user/signin/sign-in.component";
+import {PostListComponent} from "./com/notepad/post/list/post-list.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {SignInComponent} from "./com/notepad/user/signin/sign-in.component";
     SignInComponent,
     MainComponent,
     RegisteredComponent,
-    ListComponent
+    UserListComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,

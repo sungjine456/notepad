@@ -37,6 +37,21 @@ html {
         margin-top: 10px;
         background-color: lightblue;
       }
+
+      table {
+        border: 1px solid black;
+
+        th, td {
+          width: 90px;
+          padding: 0 5px;
+          border: 1px solid black;
+        }
+
+        td {
+          text-align: right;
+        }
+      }
+
     }
 
     .error-message {

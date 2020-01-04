@@ -5,3 +5,4 @@ GET         /user/list              com.notepad.user.UserController.users
 POST        /api/auth/signIn        com.notepad.security.SignInController.signIn
 
 POST        /post                   com.notepad.post.PostController.registered
+GET         /posts                  com.notepad.post.PostController.posts

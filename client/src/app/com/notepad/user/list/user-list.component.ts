@@ -5,12 +5,12 @@ import {User} from "../User";
 import {DatePipe} from "@angular/common";
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.scss'],
   providers: [DatePipe]
 })
-export class ListComponent implements OnInit {
+export class UserListComponent implements OnInit {
 
   list: Array<User>;
 

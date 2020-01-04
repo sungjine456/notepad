@@ -1,11 +1,11 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ListComponent} from './list.component';
+import {UserListComponent} from './user-list.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('ListComponent', () => {
-  let component: ListComponent;
-  let fixture: ComponentFixture<ListComponent>;
+  let component: UserListComponent;
+  let fixture: ComponentFixture<UserListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -13,13 +13,13 @@ describe('ListComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [
-        ListComponent
+        UserListComponent
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListComponent);
+    fixture = TestBed.createComponent(UserListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,6 +7,7 @@ import javax.inject._
 import play.api.Environment
 import play.api.data.Forms._
 import play.api.data._
+import play.api.libs.json.Json
 import play.api.mvc._
 
 import scala.concurrent.ExecutionContext
@@ -25,6 +26,12 @@ class PostController @Inject()(implicit ec: ExecutionContext,
     service.registered(1L, post.contents)
 
     Ok("registered")
+  }
+
+  def posts: Action[AnyContent] = SecuredAction async { implicit request =>
+    service.findAll(1L) map { list =>
+      Ok(Json.toJson(list))
+    }
   }
 }
 
