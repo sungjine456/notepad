@@ -1,6 +1,6 @@
 POST        /user                   com.notepad.user.UserController.signUp
 HEAD        /user/:id               com.notepad.user.UserController.exist(id: String)
-GET         /user/list              com.notepad.user.UserController.users
+GET         /users                  com.notepad.user.UserController.users
 
 POST        /api/auth/signIn        com.notepad.security.SignInController.signIn
 

@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
-    const res = this.httpClient.get(environment.server_url + "/user/list");
+    const res = this.httpClient.get(environment.server_url + "/users");
 
     res.subscribe((data: Array<User>) => {
       data.forEach(value => {

@@ -21,11 +21,11 @@ const routes: Routes = [
     component: RegisteredComponent
   },
   {
-    path: 'post/list',
+    path: 'posts',
     component: PostListComponent
   },
   {
-    path: 'user/list',
+    path: 'users',
     component: UserListComponent
   },
   {
