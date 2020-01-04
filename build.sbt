@@ -1,3 +1,13 @@
+/**
+ * SBT Shell 시작시 An illegal reflective access operation has occurred 경고 발생
+ * 경고는 JDK 9 미만의 버전을 사용하거나 SBT를 1.3.* 버전으로 올리면 발생하지 않음
+ * JDK 버전을 낮추는 것은 좋은 해결책이되지 않는다고 생각되며
+ * SBT 버전을 1.3 이상의 버전으로 올릴 경우 불필요한 null 폴더가 생성되어 올리지 않음
+ * 참고 : https://github.com/sbt/sbt/issues/5206
+ * 또한 SBT 버전을 1.3 이상으로 버전을 컴파일시 guice 에서 동일한 경고가 발생
+ * 참고 : https://github.com/google/guice/issues/1133
+ */
+
 name := "notepad"
 
 version := "1.0"
