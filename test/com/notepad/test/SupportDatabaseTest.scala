@@ -3,7 +3,7 @@ package com.notepad.test
 import java.util.Date
 
 import com.notepad.common.SequenceDao
-import com.notepad.post.PostDao
+import com.notepad.post.{Post, PostDao}
 import com.notepad.security.PasswordHasherImpl.Separator
 import com.notepad.user.{User, UserDao}
 import org.scalatest.{BeforeAndAfterEach, Suite}
@@ -30,7 +30,12 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with Conf
   override protected def beforeEach(): Unit = {
     super.beforeEach()
 
-    await(addUser())
+    await {
+      for {
+        _ <- addUser()
+        _ <- addPost()
+      } yield {}
+    }
   }
 
   private def deleteUser() = {
@@ -56,6 +61,21 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with Conf
         val passwordInfo = hasher.hash(Seq(id, "password").mkString(Separator))
 
         rows += User(1, id, passwordInfo.password, None, new Date())
+      }
+    } yield add
+
+    db.run(result.transactionally)
+  }
+
+  private def addPost() = {
+    val result = for {
+      _ <- sequences.filter(_.id === "Post").map(_.value).update(2)
+      add <- {
+        val contents = "new contents"
+
+        val rows = posts returning posts.map(_.idx) into ((post, idx) => post.copy(idx = idx))
+
+        rows += Post(1, 1, contents, None, new Date())
       }
     } yield add
 

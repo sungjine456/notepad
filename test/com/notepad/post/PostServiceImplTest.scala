@@ -19,13 +19,13 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
       val beforeFindAll: Seq[Post] = await(service.findAll(1))
 
-      beforeFindAll.length mustBe 0
+      beforeFindAll.length mustBe 1
 
       await(service.registered(1, "contents"))
 
       val afterFindAll: Seq[Post] = await(service.findAll(1))
 
-      afterFindAll.length mustBe 1
+      afterFindAll.length mustBe 2
     }
   }
 
@@ -33,7 +33,7 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
     "succeed" in {
       val result: Seq[Post] = await(service.findAll(1))
 
-      result.length mustBe 0
+      result.length mustBe 1
     }
   }
 }
