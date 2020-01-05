@@ -1,5 +1,8 @@
 package com.notepad.post
 
+import java.util.Date
+
+import com.notepad.dao.SupportDao
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
@@ -7,7 +10,8 @@ import slick.jdbc.JdbcProfile
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class PostDao @Inject()(val dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class PostDao @Inject()(val dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext)
+  extends SupportDao {
 
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
@@ -23,7 +27,11 @@ class PostDao @Inject()(val dbConfigProvider: DatabaseConfigProvider)(implicit e
 
     def contents = column[String]("contents")
 
-    def * = (idx, owner, contents) <> ((Post.apply _).tupled, Post.unapply)
+    def updated = column[Option[Date]]("updated")
+
+    def registered = column[Date]("registered")
+
+    def * = (idx, owner, contents, updated, registered) <> ((Post.apply _).tupled, Post.unapply)
   }
 
 }

@@ -1,17 +1,17 @@
 package com.notepad.user
 
-import java.sql.Timestamp
 import java.util.Date
 
+import com.notepad.dao.SupportDao
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.DatabaseConfigProvider
-import slick.ast.BaseTypedType
-import slick.jdbc.{JdbcProfile, JdbcType}
+import slick.jdbc.JdbcProfile
 
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class UserDao @Inject()(val dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class UserDao @Inject()(val dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext)
+  extends SupportDao {
 
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
@@ -34,13 +34,4 @@ class UserDao @Inject()(val dbConfigProvider: DatabaseConfigProvider)(implicit e
     def * = (idx, id, password, updated, registered) <> ((User.apply _).tupled, User.unapply)
   }
 
-  implicit def dateType: JdbcType[Date] with BaseTypedType[Date] = {
-    val api = dbConfig.profile.api
-
-    import api._
-
-    dbConfig.profile.MappedColumnType.base[Date, Timestamp](
-      d => new Timestamp(d.getTime),
-      t => new Date(t.getTime))
-  }
 }

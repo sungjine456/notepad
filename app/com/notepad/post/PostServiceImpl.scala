@@ -1,5 +1,7 @@
 package com.notepad.post
 
+import java.util.Date
+
 import com.notepad.common.SequenceService
 import javax.inject.{Inject, Singleton}
 
@@ -20,7 +22,7 @@ class PostServiceImpl @Inject()(dao: PostDao,
       post <- db run {
         val rows = posts returning posts.map(_.idx) into ((post, idx) => post.copy(idx = idx))
 
-        rows += Post(idx, owner, contents)
+        rows += Post(idx, owner, contents, None, new Date)
       }
     } yield {
       post

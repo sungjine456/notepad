@@ -6,11 +6,13 @@
     <thead>
       <tr>
         <th>내용</th>
+        <th>등록일</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let post of posts">
         <td>{{post.contents}}</td>
+        <td>{{this.datePipe.transform(post.registered, 'yyyy/MM/dd')}}</td>
       </tr>
     </tbody>
   </table>

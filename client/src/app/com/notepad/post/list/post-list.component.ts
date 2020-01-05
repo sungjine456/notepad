@@ -1,19 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../../environments/environment";
-import {User} from "../../user/User";
 import {Post} from "../Post";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.scss']
+  styleUrls: ['./post-list.component.scss'],
+  providers: [DatePipe]
 })
 export class PostListComponent implements OnInit {
 
   posts: Array<Post> = [];
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              public datePipe: DatePipe) {
   }
 
   ngOnInit() {
