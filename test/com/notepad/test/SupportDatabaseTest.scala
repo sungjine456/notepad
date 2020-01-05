@@ -18,6 +18,7 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with Conf
   import dbConfig.db
   import dbConfig.profile.api._
   import postDao.posts
+  import sequenceDao.sequences
   import userDao.users
 
   override protected def afterEach(): Unit = {
@@ -45,16 +46,19 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with Conf
   }
 
   private def addUser() = {
-    db run {
-      val id = "newUserId"
+    val result = for {
+      _ <- sequences.filter(_.id === "User").map(_.value).update(2)
+      add <- {
+        val id = "newUserId"
 
-      sequenceDao.sequences.filter(_.id === "User").map(_.value).update(2)
+        val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
 
-      val rows = users returning users.map(_.idx) into ((user, idx) => user.copy(idx = idx))
+        val passwordInfo = hasher.hash(Seq(id, "password").mkString(Separator))
 
-      val passwordInfo = hasher.hash(Seq(id, "password").mkString(Separator))
+        rows += User(1, id, passwordInfo.password, None, new Date())
+      }
+    } yield add
 
-      rows += User(1, id, passwordInfo.password, None, new Date())
-    }
+    db.run(result.transactionally)
   }
 }
