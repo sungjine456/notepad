@@ -2,10 +2,10 @@ package com.notepad.security
 
 import com.mohiva.play.silhouette.api._
 import com.mohiva.play.silhouette.impl.providers._
+import com.notepad.logging.LoggingSupport
 import com.notepad.security.SignInForms.{SignInFormDomain, signInForm}
 import com.notepad.user.UserService
 import javax.inject.{Inject, Singleton}
-import play.api.Logger
 import play.api.data.Form
 import play.api.data.Forms.{mapping, text}
 import play.api.libs.json.Json
@@ -18,9 +18,8 @@ class SignInController @Inject()(implicit val executionContext: ExecutionContext
                                  val controllerComponents: ControllerComponents,
                                  val userService: UserService,
                                  val silhouette: Silhouette[DefaultEnv],
-                                 val securityService: SecurityService) extends SecuredController[DefaultEnv] {
-
-  val logger = Logger(this.getClass)
+                                 val securityService: SecurityService) extends SecuredController[DefaultEnv]
+  with LoggingSupport {
 
   def signIn: Action[SignInFormDomain] = Action.async(parse.form(signInForm)) { implicit request =>
     val SignInFormDomain(id, password) = request.body

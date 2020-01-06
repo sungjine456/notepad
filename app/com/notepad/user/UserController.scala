@@ -1,14 +1,15 @@
 package com.notepad.user
 
 import com.mohiva.play.silhouette.api.Silhouette
+import com.notepad.logging.LoggingSupport
 import com.notepad.security.{DefaultEnv, SecuredController}
 import com.notepad.user.UserForms._
 import javax.inject._
+import play.api.Environment
 import play.api.data.Forms._
 import play.api.data._
 import play.api.libs.json.Json
 import play.api.mvc._
-import play.api.{Environment, Logger}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -18,9 +19,7 @@ class UserController @Inject()(implicit ec: ExecutionContext,
                                userService: UserService,
                                val silhouette: Silhouette[DefaultEnv],
                                env: Environment) extends AbstractController(cc)
-  with SecuredController[DefaultEnv] {
-
-  val logger: Logger = Logger(this.getClass)
+  with SecuredController[DefaultEnv] with LoggingSupport {
 
   def signUp: Action[AnyContent] = UnsecuredAction.async { implicit request: Request[AnyContent] =>
     val user = userRegisteredForm.bindFromRequest.get
