@@ -23,13 +23,13 @@ class PostController @Inject()(implicit ec: ExecutionContext,
   def registered: Action[AnyContent] = SecuredAction { implicit request =>
     val post = postRegisteredForm.bindFromRequest.get
 
-    service.registered(1L, post.contents)
+    service.registered(request.identity.id, post.contents)
 
     Ok("registered")
   }
 
   def posts: Action[AnyContent] = SecuredAction async { implicit request =>
-    service.findAll(1L) map { list =>
+    service.findAll(request.identity.id) map { list =>
       Ok(Json.toJson(list))
     }
   }
