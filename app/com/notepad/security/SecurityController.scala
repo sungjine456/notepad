@@ -14,7 +14,7 @@ import play.api.mvc.{Action, _}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SignInController @Inject()(implicit val executionContext: ExecutionContext,
+class SecurityController @Inject()(implicit val executionContext: ExecutionContext,
                                  val controllerComponents: ControllerComponents,
                                  val userService: UserService,
                                  val silhouette: Silhouette[DefaultEnv],
@@ -43,6 +43,14 @@ class SignInController @Inject()(implicit val executionContext: ExecutionContext
         }
       case None => Future.successful(Unauthorized)
     }
+  }
+
+  def signOut: Action[AnyContent] = SecuredAction async { implicit request =>
+    eventBus publish {
+      LogoutEvent(request.identity, request)
+    }
+
+    authenticatorService.discard(request.authenticator, Ok)
   }
 }
 
