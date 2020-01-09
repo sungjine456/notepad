@@ -58,7 +58,7 @@ object SignInForms {
 
   case class SignInFormDomain(id: String, password: String)
 
-  val signInForm = Form(
+  val signInForm: Form[SignInFormDomain] = Form(
     mapping(
       "id" -> text,
       "password" -> text)(SignInFormDomain.apply)(SignInFormDomain.unapply))

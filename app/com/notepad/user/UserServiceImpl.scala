@@ -46,7 +46,7 @@ class UserServiceImpl @Inject()(dao: UserDao,
   }
 
   override def create(id: String, password: String): Future[User] = {
-    require(checkString(id, 6, 12), s"$id is wrong id")
+    require(id != null && id.length >= 6 && id.length <= 12, s"$id is wrong id")
     require(checkPassword(password), s"$password is wrong password")
 
     val now = new Date()
@@ -75,10 +75,6 @@ class UserServiceImpl @Inject()(dao: UserDao,
     val regex = "(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,20}".r
 
     regex.findFirstIn(password).isDefined
-  }
-
-  private def checkString(str: String, min: Int, max: Int): Boolean = {
-    str != null && str.length >= min && str.length <= max
   }
 
   private def makePasswordInfo(id: String, password: String): PasswordInfo = {

@@ -6,7 +6,7 @@ import play.api.Configuration
 
 trait ConfigurationTest {
 
-  def config = Configuration(ConfigFactory.load("test.conf"))
+  def config: Configuration = Configuration(ConfigFactory.load("test.conf"))
 
   val hasher = new PasswordHasherImpl(config)
 }
