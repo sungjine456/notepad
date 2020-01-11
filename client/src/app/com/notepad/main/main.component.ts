@@ -10,18 +10,23 @@ import {Router} from "@angular/router";
 })
 export class MainComponent {
   title = 'notepad';
+  isLogin = false;
 
   constructor(private router: Router,
               private httpClient: HttpClient) {
+
+    this.isLogin = sessionStorage.getItem("token") !== null;
   }
 
   signOut() {
-    const res = this.httpClient.get(environment.server_url + "/api/auth/signOut", {responseType: 'text'});
+    const res = this.httpClient.get(environment.server_url + "/api/auth/signOut");
 
     res.subscribe(() => {
-        sessionStorage.removeItem("token");
+      sessionStorage.removeItem("token");
 
-        this.router.navigate(['/'])
-      });
+      this.router.navigate(['/blank'], {skipLocationChange: true}).then(
+        () => this.router.navigate(['/'])
+      )
+    });
   }
 }

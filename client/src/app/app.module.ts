@@ -12,6 +12,7 @@ import {UserListComponent} from './com/notepad/user/list/user-list.component';
 import {HttpInterceptorService} from "./com/notepad/common/HttpInterceptorService";
 import {SignInComponent} from "./com/notepad/user/signin/sign-in.component";
 import {PostListComponent} from "./com/notepad/post/list/post-list.component";
+import {BlankComponent} from "./com/notepad/common/BlankComponent";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {PostListComponent} from "./com/notepad/post/list/post-list.component";
     MainComponent,
     RegisteredComponent,
     UserListComponent,
-    PostListComponent
+    PostListComponent,
+    BlankComponent
   ],
   imports: [
     BrowserModule,

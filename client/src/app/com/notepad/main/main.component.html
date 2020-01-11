@@ -2,22 +2,22 @@
   <div class="content" role="main">
     <h1>{{title}} project</h1>
 
-    <div>
+    <div *ngIf="!isLogin">
       <button routerLink="/signUp">가입</button>
     </div>
-    <div>
+    <div *ngIf="!isLogin">
       <button routerLink="/signIn">로그인</button>
     </div>
-    <div>
+    <div *ngIf="isLogin">
       <button routerLink="/users">사용자 목록</button>
     </div>
-    <div>
+    <div *ngIf="isLogin">
       <button routerLink="/registered">등록</button>
     </div>
-    <div>
+    <div *ngIf="isLogin">
       <button routerLink="/posts">글 목록</button>
     </div>
-    <div>
+    <div *ngIf="isLogin">
       <button (click)="signOut()">로그아웃</button>
     </div>
   </div>

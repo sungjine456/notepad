@@ -6,6 +6,7 @@ import {RegisteredComponent} from "./com/notepad/post/registered/registered.comp
 import {UserListComponent} from "./com/notepad/user/list/user-list.component";
 import {SignInComponent} from "./com/notepad/user/signin/sign-in.component";
 import {PostListComponent} from "./com/notepad/post/list/post-list.component";
+import {BlankComponent} from "./com/notepad/common/BlankComponent";
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: '',
     component: MainComponent
+  },
+  {
+    path: 'blank',
+    component: BlankComponent
   }
 ];
 
