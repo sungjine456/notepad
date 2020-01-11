@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SignUpComponent} from './sign-up.component';
+import {MustMatch, SignUpComponent} from './sign-up.component';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
@@ -38,8 +38,9 @@ describe('SignUpComponent', () => {
       password: ['', [
         Validators.required,
         Validators.pattern(/^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,20}/)
-      ]]
-    });
+      ]],
+      confirmPassword: ['']
+    }, {validator: MustMatch('password', 'confirmPassword')});
 
     fixture.detectChanges();
   });
