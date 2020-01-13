@@ -15,7 +15,7 @@ CREATE TABLE "Post"
 (
     "idx"        BIGINT PRIMARY KEY NOT NULL,
     "owner"      BIGINT             NOT NULL,
-    "contents"   VARCHAR(255)       NOT NULL,
+    "contents"   VARCHAR(200)       NOT NULL,
     "updated"    TIME,
     "registered" TIMESTAMP          NOT NULL
 );

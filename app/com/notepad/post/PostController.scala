@@ -41,7 +41,7 @@ object PostForms {
 
   val postRegisteredForm: Form[PostRegisteredFormDomain] = Form(
     mapping(
-      "contents" -> text
+      "contents" -> text(maxLength = 200)
     )(PostRegisteredFormDomain.apply)(PostRegisteredFormDomain.unapply)
   )
 }
