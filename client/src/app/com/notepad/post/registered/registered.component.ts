@@ -33,8 +33,6 @@ export class RegisteredComponent implements OnInit {
       responseType: 'text'
     });
 
-    res.subscribe((data) => {
-      if (data == "registered") this.router.navigate(['/'])
-    });
+    res.subscribe(() => this.router.navigate(['/posts']));
   }
 }

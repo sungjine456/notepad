@@ -20,12 +20,10 @@ class PostController @Inject()(implicit ec: ExecutionContext,
                                env: Environment) extends AbstractController(cc)
   with SecuredController[DefaultEnv]{
 
-  def registered: Action[AnyContent] = SecuredAction { implicit request =>
+  def registered: Action[AnyContent] = SecuredAction async { implicit request =>
     val post = postRegisteredForm.bindFromRequest.get
 
-    service.registered(request.identity.id, post.contents)
-
-    Ok("registered")
+    service.registered(request.identity.id, post.contents).map(_ => Ok)
   }
 
   def posts: Action[AnyContent] = SecuredAction async { implicit request =>
