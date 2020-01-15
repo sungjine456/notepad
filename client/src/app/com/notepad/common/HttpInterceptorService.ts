@@ -21,6 +21,12 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     return next.handle(cloneReq).pipe(
       catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          if (token) sessionStorage.removeItem("token");
+
+          this.router.navigateByUrl("/signIn")
+        }
+
         if (error.status === 404 && !error.url.includes("/user/")) {
           this.router.navigateByUrl("/");
         }
