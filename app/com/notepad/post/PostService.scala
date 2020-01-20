@@ -7,4 +7,6 @@ trait PostService {
   def registered(owner: Long, contents: String): Future[Post]
 
   def findAll(owner: Long): Future[Seq[Post]]
+
+  def update(idx: Long, contents: String): Future[Int]
 }

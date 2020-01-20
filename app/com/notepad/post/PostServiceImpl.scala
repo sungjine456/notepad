@@ -34,4 +34,12 @@ class PostServiceImpl @Inject()(dao: PostDao,
       posts.result
     }
   }
+
+  override def update(idx: Long, contents: String): Future[Int] = {
+    db run {
+      posts.filter(_.idx === idx)
+        .map(_.contents)
+        .update(contents)
+    }
+  }
 }
