@@ -16,7 +16,6 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
   "registered(owner: Long, contents: String)" should {
     "succeed" in {
-
       val beforeFindAll: Seq[Post] = await(service.findAll(1))
 
       beforeFindAll.length mustBe 1
@@ -34,6 +33,20 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
       val result: Seq[Post] = await(service.findAll(1))
 
       result.length mustBe 1
+    }
+  }
+
+  "update(idx, contents)" should {
+    "succeed" in {
+      val beforeFindAll: Seq[Post] = await(service.findAll(1))
+
+      beforeFindAll.head.contents mustBe "new contents"
+
+      await(service.update(1, "update contents"))
+
+      val afterFindAll: Seq[Post] = await(service.findAll(1))
+
+      afterFindAll.head.contents mustBe "update contents"
     }
   }
 }
