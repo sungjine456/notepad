@@ -47,7 +47,7 @@ export class SignInComponent implements OnInit {
     res.subscribe((data: SessionData) => {
         sessionStorage.setItem("token", data.token);
 
-        this.router.navigate(['/users'])
+        this.router.navigate(['/'])
       },
       () => {
         alert("아이디나 비밀번호를 다시 확인해주세요.")
