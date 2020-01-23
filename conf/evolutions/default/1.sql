@@ -4,7 +4,7 @@ CREATE TABLE "User"
     "idx"        BIGINT PRIMARY KEY NOT NULL,
     "id"         VARCHAR(12)        NOT NULL,
     "password"   VARCHAR(100)       NOT NULL,
-    "updated"    TIME,
+    "updated"    TIMESTAMP,
     "registered" TIMESTAMP          NOT NULL
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE "Post"
     "idx"        BIGINT PRIMARY KEY NOT NULL,
     "owner"      BIGINT             NOT NULL,
     "contents"   VARCHAR(200)       NOT NULL,
-    "updated"    TIME,
+    "updated"    TIMESTAMP,
     "registered" TIMESTAMP          NOT NULL
 );
 

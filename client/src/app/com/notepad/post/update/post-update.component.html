@@ -1,0 +1,6 @@
+<section>
+  <form [formGroup]="postForm">
+    <textarea placeholder="내용" name="contents" [maxLength]="200" #contents>{{post.contents}}</textarea>
+    <button type="submit" (click)="onSubmit(contents.value)">저장</button>
+  </form>
+</section>

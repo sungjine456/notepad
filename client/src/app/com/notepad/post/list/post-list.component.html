@@ -7,12 +7,16 @@
       <tr>
         <th>내용</th>
         <th>등록일</th>
+        <th>수정일</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let post of posts">
         <td class="content">{{post.contents}}</td>
         <td>{{this.datePipe.transform(post.registered, 'yyyy/MM/dd')}}</td>
+        <td>{{this.datePipe.transform(post.updated, 'yyyy/MM/dd')}}</td>
+        <td><button routerLink="/postUpdate" [queryParams]="{idx: post.idx}">수정</button></td>
       </tr>
     </tbody>
   </table>

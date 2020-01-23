@@ -3,4 +3,5 @@ export class Post {
   user: number;
   contents: string;
   registered: Date;
+  updated: Date;
 }

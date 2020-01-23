@@ -1,7 +1,6 @@
 package com.notepad.post
 
-import java.util.Date
-
+import com.mohiva.play.silhouette.api.util.Clock
 import com.notepad.common.SequenceService
 import javax.inject.{Inject, Singleton}
 
@@ -9,12 +8,13 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class PostServiceImpl @Inject()(dao: PostDao,
-                                databaseSupport: SequenceService
+                                databaseSupport: SequenceService,
+                                clock: Clock
                                )(implicit ec: ExecutionContext) extends PostService {
 
+  import dao._
   import dao.dbConfig.db
   import dao.dbConfig.profile.api._
-  import dao.posts
 
   override def registered(owner: Long, contents: String): Future[Post] = {
     for {
@@ -22,7 +22,7 @@ class PostServiceImpl @Inject()(dao: PostDao,
       post <- db run {
         val rows = posts returning posts.map(_.idx) into ((post, idx) => post.copy(idx = idx))
 
-        rows += Post(idx, owner, contents, None, new Date)
+        rows += Post(idx, owner, contents, None, clock.now.toDate)
       }
     } yield {
       post
@@ -44,8 +44,8 @@ class PostServiceImpl @Inject()(dao: PostDao,
   override def update(idx: Long, contents: String): Future[Int] = {
     db run {
       posts.filter(_.idx === idx)
-        .map(_.contents)
-        .update(contents)
+        .map(post => (post.contents, post.updated))
+        .update((contents, Some(clock.now.toDate)))
     }
   }
 }

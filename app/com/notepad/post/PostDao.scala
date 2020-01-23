@@ -27,9 +27,9 @@ class PostDao @Inject()(val dbConfigProvider: DatabaseConfigProvider)(implicit e
 
     def contents = column[String]("contents")
 
-    def updated = column[Option[Date]]("updated")
+    def updated = column[Option[Date]]("updated")(dateType.optionType)
 
-    def registered = column[Date]("registered")
+    def registered = column[Date]("registered")(dateType)
 
     def * = (idx, owner, contents, updated, registered) <> ((Post.apply _).tupled, Post.unapply)
   }

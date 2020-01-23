@@ -5,5 +5,7 @@ GET         /users                  com.notepad.user.UserController.users
 POST        /api/auth/signIn        com.notepad.security.SecurityController.signIn
 GET         /api/auth/signOut       com.notepad.security.SecurityController.signOut
 
+GET         /post/:idx              com.notepad.post.PostController.find(idx: Int)
 POST        /post                   com.notepad.post.PostController.registered
+POST        /post/:idx              com.notepad.post.PostController.updated(idx: Int)
 GET         /posts                  com.notepad.post.PostController.posts

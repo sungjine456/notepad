@@ -13,6 +13,7 @@ import {HttpInterceptorService} from "./com/notepad/common/HttpInterceptorServic
 import {SignInComponent} from "./com/notepad/user/signin/sign-in.component";
 import {PostListComponent} from "./com/notepad/post/list/post-list.component";
 import {BlankComponent} from "./com/notepad/common/BlankComponent";
+import {PostUpdateComponent} from "./com/notepad/post/update/post-update.component";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {BlankComponent} from "./com/notepad/common/BlankComponent";
     RegisteredComponent,
     UserListComponent,
     PostListComponent,
-    BlankComponent
+    BlankComponent,
+    PostUpdateComponent
   ],
   imports: [
     BrowserModule,
