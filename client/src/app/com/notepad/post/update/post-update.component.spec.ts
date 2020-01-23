@@ -1,15 +1,26 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {PostUpdateComponent} from "./post-update.component";
+import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {RouterTestingModule} from "@angular/router/testing";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-describe('UpdateComponent', () => {
+describe('PostUpdateComponent', () => {
   let component: PostUpdateComponent;
   let fixture: ComponentFixture<PostUpdateComponent>;
+  const formBuilder: FormBuilder = new FormBuilder();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PostUpdateComponent ]
-    })
-    .compileComponents();
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        HttpClientTestingModule
+      ],
+      declarations: [PostUpdateComponent],
+      providers: [
+        {provide: FormBuilder, useValue: formBuilder}
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

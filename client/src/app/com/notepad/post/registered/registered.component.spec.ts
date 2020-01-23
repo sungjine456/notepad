@@ -23,8 +23,7 @@ describe('RegisteredComponent', () => {
       providers: [
         {provide: FormBuilder, useValue: formBuilder}
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
