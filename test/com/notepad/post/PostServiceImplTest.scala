@@ -1,8 +1,10 @@
 package com.notepad.post
 
+import com.mohiva.play.silhouette.api.util.Clock
 import com.notepad.common.{SequenceDao, SequenceService}
 import com.notepad.test.SupportDatabaseTest
 import org.scalatestplus.play.PlaySpec
+import play.api.Application
 
 class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
@@ -11,7 +13,9 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
     val sequenceService = new SequenceService(sequenceDao)
 
-    new PostServiceImpl(postDao, sequenceService)
+    val clock = Application.instanceCache[Clock].apply(application)
+
+    new PostServiceImpl(postDao, sequenceService, clock)
   }
 
   "registered(owner: Long, contents: String)" should {
