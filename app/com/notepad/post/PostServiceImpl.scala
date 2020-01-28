@@ -41,9 +41,9 @@ class PostServiceImpl @Inject()(dao: PostDao,
     }
   }
 
-  override def update(idx: Long, contents: String): Future[Int] = {
+  override def update(idx: Long, owner: Long, contents: String): Future[Int] = {
     db run {
-      posts.filter(_.idx === idx)
+      posts.filter(p => p.idx === idx && p.owner === owner)
         .map(post => (post.contents, post.updated))
         .update((contents, Some(clock.now.toDate)))
     }

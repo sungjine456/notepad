@@ -10,5 +10,5 @@ trait PostService {
 
   def findByIdxAndOwner(idx: Long, owner: Long): Future[Option[Post]]
 
-  def update(idx: Long, contents: String): Future[Int]
+  def update(idx: Long, owner: Long, contents: String): Future[Int]
 }

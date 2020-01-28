@@ -41,7 +41,7 @@ class PostController @Inject()(implicit ec: ExecutionContext,
   def updated(idx: Int): Action[AnyContent] = SecuredAction async { implicit request =>
     val post = postRegisteredForm.bindFromRequest.get
 
-    service.update(idx, post.contents).map(_ => Ok)
+    service.update(idx, request.identity.id, post.contents).map(_ => Ok)
   }
 }
 
