@@ -1,7 +1,7 @@
 package com.notepad.post
 
 import com.mohiva.play.silhouette.api.util.Clock
-import com.notepad.common.{SequenceDao, SequenceService}
+import com.notepad.common.{InsufficientPermissionException, NotFoundException, SequenceDao, SequenceService}
 import com.notepad.test.SupportDatabaseTest
 import org.scalatestplus.play.PlaySpec
 import play.api.Application
@@ -67,6 +67,26 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
       val afterFindAll: Seq[Post] = await(service.findAll(1))
 
       afterFindAll.head.contents mustBe "update contents"
+    }
+
+    "fail if not exists the post" in {
+      val beforeFindAll: Seq[Post] = await(service.findAll(1))
+
+      beforeFindAll.head.contents mustBe "new contents"
+
+      an[NotFoundException] should be thrownBy {
+        await(service.update(2, 1, "update contents"))
+      }
+    }
+
+    "fail if the owner is not the author of the posting" in {
+      val beforeFindAll: Seq[Post] = await(service.findAll(1))
+
+      beforeFindAll.head.contents mustBe "new contents"
+
+      an[InsufficientPermissionException] should be thrownBy {
+        await(service.update(1, 2, "update contents"))
+      }
     }
   }
 }

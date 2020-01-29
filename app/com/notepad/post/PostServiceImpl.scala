@@ -1,7 +1,7 @@
 package com.notepad.post
 
 import com.mohiva.play.silhouette.api.util.Clock
-import com.notepad.common.SequenceService
+import com.notepad.common.{InsufficientPermissionException, NotFoundException, SequenceService}
 import javax.inject.{Inject, Singleton}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -47,11 +47,27 @@ class PostServiceImpl @Inject()(dao: PostDao,
     }
   }
 
-  override def update(idx: Long, owner: Long, contents: String): Future[Int] = {
-    db run {
-      posts.filter(p => p.idx === idx && p.owner === owner)
-        .map(post => (post.contents, post.updated))
-        .update((contents, Some(clock.now.toDate)))
+  override def update(idx: Long, owner: Long, contents: String): Future[Unit] = {
+    def updateContents(): Future[Int] = {
+      db run {
+        posts.filter(p => p.idx === idx && p.owner === owner)
+          .map(post => (post.contents, post.updated))
+          .update((contents, Some(clock.now.toDate)))
+      }
     }
+
+    for {
+      _ <- findByIdx(idx).map {
+        case None =>
+          throw new NotFoundException(s"not found idx : $idx")
+        case _ =>
+      }
+      _ <- findByIdxAndOwner(idx, owner).map {
+        case None =>
+          throw new InsufficientPermissionException(s"insufficient permission idx : $idx, owner : $owner")
+        case _ =>
+      }
+      _ <- updateContents()
+    } yield {}
   }
 }
