@@ -35,7 +35,13 @@ class PostServiceImpl @Inject()(dao: PostDao,
     }
   }
 
-  def findByIdxAndOwner(idx: Long, owner: Long): Future[Option[Post]] = {
+  override def findByIdx(idx: Long): Future[Option[Post]] = {
+    db run {
+      posts.filter(_.idx === idx).result.headOption
+    }
+  }
+
+  override def findByIdxAndOwner(idx: Long, owner: Long): Future[Option[Post]] = {
     db run {
       posts.filter(posts => posts.idx === idx && posts.owner === owner).result.headOption
     }

@@ -40,6 +40,14 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
     }
   }
 
+  "findByIdx(idx)" should {
+    "succeed" in {
+      val result: Option[Post] = await(service.findByIdx(1))
+
+      result.head.contents mustBe "new contents"
+    }
+  }
+
   "findByIdxAndOwner(idx, owner)" should {
     "succeed" in {
       val result: Option[Post] = await(service.findByIdxAndOwner(1, 1))
