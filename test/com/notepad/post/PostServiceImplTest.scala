@@ -1,7 +1,7 @@
 package com.notepad.post
 
 import com.mohiva.play.silhouette.api.util.Clock
-import com.notepad.common.{InsufficientPermissionException, NotFoundException, SequenceDao, SequenceService}
+import com.notepad.common.{InvalidCredentialsException, NotFoundException, SequenceDao, SequenceService}
 import com.notepad.test.SupportDatabaseTest
 import org.scalatestplus.play.PlaySpec
 import play.api.Application
@@ -84,7 +84,7 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
       beforeFindAll.head.contents mustBe "new contents"
 
-      an[InsufficientPermissionException] should be thrownBy {
+      an[InvalidCredentialsException] should be thrownBy {
         await(service.update(1, 2, "update contents"))
       }
     }
