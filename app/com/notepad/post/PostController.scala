@@ -1,6 +1,7 @@
 package com.notepad.post
 
 import com.mohiva.play.silhouette.api.Silhouette
+import com.notepad.common.{InvalidCredentialsException, NotFoundException}
 import com.notepad.post.PostForms._
 import com.notepad.security.{DefaultEnv, SecuredController}
 import javax.inject._
@@ -41,7 +42,12 @@ class PostController @Inject()(implicit ec: ExecutionContext,
   def updated(idx: Int): Action[AnyContent] = SecuredAction async { implicit request =>
     val post = postRegisteredForm.bindFromRequest.get
 
-    service.update(idx, request.identity.id, post.contents).map(_ => Ok)
+    service.update(idx, request.identity.id, post.contents) map { _ =>
+      Ok
+    } recover {
+      case _: NotFoundException => NotFound
+      case _: InvalidCredentialsException => Forbidden
+    }
   }
 }
 

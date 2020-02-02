@@ -46,6 +46,13 @@ export class PostUpdateComponent implements OnInit {
       responseType: 'text'
     });
 
-    res.subscribe(() => this.router.navigate(['/posts']));
+    res.subscribe(() => this.router.navigate(['/posts']),
+      (error) => {
+        if (error.status === 404) {
+          alert("존재하지 않는 글입니다.");
+        } else if (error.status === 403) {
+          alert("작성자가 아닙니다.");
+        }
+      });
   }
 }
