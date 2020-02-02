@@ -30,7 +30,6 @@ export class PostUpdateComponent implements OnInit {
         this.httpClient.get(environment.server_url + "/post/" + params.idx)
       )
     ).subscribe((post: Post) => {
-      console.log(post);
       this.post = post;
     });
   }
@@ -42,8 +41,6 @@ export class PostUpdateComponent implements OnInit {
     const body = {
       contents: contents
     };
-
-    console.log(this.post);
 
     const res = this.httpClient.post(environment.server_url + "/post/" + this.post.idx, body, {
       responseType: 'text'
