@@ -46,6 +46,12 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
       result.head.contents mustBe "new contents"
     }
+
+    "does not found when wrong the idx" in {
+      val result: Option[Post] = await(service.findByIdx(100))
+
+      result mustBe None
+    }
   }
 
   "findByIdxAndOwner(idx, owner)" should {
@@ -53,6 +59,18 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
       val result: Option[Post] = await(service.findByIdxAndOwner(1, 1))
 
       result.head.contents mustBe "new contents"
+    }
+
+    "does not found when wrong the idx" in {
+      val result: Option[Post] = await(service.findByIdxAndOwner(100, 1))
+
+      result mustBe None
+    }
+
+    "does not found when wrong the owner" in {
+      val result: Option[Post] = await(service.findByIdxAndOwner(1, 100))
+
+      result mustBe None
     }
   }
 
