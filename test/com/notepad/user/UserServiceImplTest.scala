@@ -81,31 +81,31 @@ class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
   }
 
   "findById(id: String)" should {
-    "empty" in {
+    "return None when does not found by id" in {
       await(service.findById("userId")).isEmpty mustBe true
     }
 
-    "exists" in {
+    "return Some(User) when does not found by id" in {
       await(service.findById("newUserId")).isDefined mustBe true
     }
   }
 
   "findByIdx(idx: Long)" should {
-    "empty" in {
+    "return None when does not found by idx" in {
       await(service.findByIdx(100L)).isEmpty mustBe true
     }
 
-    "exists" in {
+    "return Some(User) when does not found by idx" in {
       await(service.findByIdx(1L)).isDefined mustBe true
     }
   }
 
   "findByIdAndPassword(id: String, password: String)" should {
-    "empty" in {
+    "return None when does not found by id and password" in {
       await(service.findByIdAndPassword("userId", "password")).isEmpty mustBe true
     }
 
-    "exists" in {
+    "return Some(User) when does not found by id and password" in {
       await(service.findByIdAndPassword("newUserId", "password")).isDefined mustBe true
     }
   }
