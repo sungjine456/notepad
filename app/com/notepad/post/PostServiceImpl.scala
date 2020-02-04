@@ -22,7 +22,7 @@ class PostServiceImpl @Inject()(dao: PostDao,
       post <- db run {
         val rows = posts returning posts.map(_.idx) into ((post, idx) => post.copy(idx = idx))
 
-        rows += Post(idx, owner, contents, None, clock.now.toDate)
+        rows += Post(idx, owner, contents, None, clock.now.toDate, removed = false)
       }
     } yield {
       post
@@ -57,6 +57,28 @@ class PostServiceImpl @Inject()(dao: PostDao,
     }
 
     for {
+      _ <- checkPost(idx, owner)
+      _ <- updateContents()
+    } yield {}
+  }
+
+  def delete(idx: Long, owner: Long): Future[Unit] = {
+    def deleteContent(): Future[Int] = {
+      db run {
+        posts.filter(p => p.idx === idx && p.owner === owner)
+          .map(post => (post.updated, post.removed))
+          .update((Some(clock.now.toDate), true))
+      }
+    }
+
+    for {
+      _ <- checkPost(idx, owner)
+      _ <- deleteContent()
+    } yield {}
+  }
+
+  private def checkPost(idx: Long, owner: Long): Future[Unit] = {
+    for {
       post <- findByIdx(idx) map {
         case None =>
           throw new NotFoundException(s"not found idx : $idx")
@@ -68,7 +90,6 @@ class PostServiceImpl @Inject()(dao: PostDao,
         case _ =>
           Future.successful({})
       }
-      _ <- updateContents()
     } yield {}
   }
 }

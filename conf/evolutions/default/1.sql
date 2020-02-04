@@ -17,7 +17,8 @@ CREATE TABLE "Post"
     "owner"      BIGINT             NOT NULL,
     "contents"   VARCHAR(200)       NOT NULL,
     "updated"    TIMESTAMP,
-    "registered" TIMESTAMP          NOT NULL
+    "registered" TIMESTAMP          NOT NULL,
+    "removed"   BOOLEAN             DEFAULT FALSE
 );
 
 CREATE TABLE "Sequence"

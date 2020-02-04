@@ -13,4 +13,6 @@ trait PostService {
   def findByIdxAndOwner(idx: Long, owner: Long): Future[Option[Post]]
 
   def update(idx: Long, owner: Long, contents: String): Future[Unit]
+
+  def delete(idx: Long, owner: Long): Future[Unit]
 }

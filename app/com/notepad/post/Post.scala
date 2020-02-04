@@ -4,7 +4,7 @@ import java.util.Date
 
 import play.api.libs.json.{Json, Reads, Writes}
 
-case class Post(idx: Long, owner: Long, contents: String, updated: Option[Date], registered: Date)
+case class Post(idx: Long, owner: Long, contents: String, updated: Option[Date], registered: Date, removed: Boolean)
 
 object Post {
 

@@ -31,7 +31,9 @@ class PostDao @Inject()(val dbConfigProvider: DatabaseConfigProvider)(implicit e
 
     def registered = column[Date]("registered")(dateType)
 
-    def * = (idx, owner, contents, updated, registered) <> ((Post.apply _).tupled, Post.unapply)
+    def removed = column[Boolean]("removed")
+
+    def * = (idx, owner, contents, updated, registered, removed) <> ((Post.apply _).tupled, Post.unapply)
   }
 
 }

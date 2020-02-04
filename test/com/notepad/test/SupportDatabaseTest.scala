@@ -75,7 +75,7 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with Conf
 
         val rows = posts returning posts.map(_.idx) into ((post, idx) => post.copy(idx = idx))
 
-        rows += Post(1, 1, contents, None, new Date())
+        rows += Post(1, 1, contents, None, new Date(), removed = false)
       }
     } yield add
 
