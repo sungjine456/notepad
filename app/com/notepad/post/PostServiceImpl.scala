@@ -31,7 +31,7 @@ class PostServiceImpl @Inject()(dao: PostDao,
 
   override def findAll(owner: Long): Future[Seq[Post]] = {
     db run {
-      posts.result
+      posts.filter(post => post.owner === owner).result
     }
   }
 

@@ -22,21 +22,21 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
     "succeed" in {
       val beforeFindAll: Seq[Post] = await(service.findAll(1))
 
-      beforeFindAll.length mustBe 1
+      beforeFindAll.length mustBe 2
 
       await(service.registered(1, "contents"))
 
       val afterFindAll: Seq[Post] = await(service.findAll(1))
 
-      afterFindAll.length mustBe 2
+      afterFindAll.length mustBe 3
     }
   }
 
-  "findAll()" should {
+  "findAll(owner)" should {
     "succeed" in {
       val result: Seq[Post] = await(service.findAll(1))
 
-      result.length mustBe 1
+      result.length mustBe 2
     }
   }
 
@@ -44,7 +44,7 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
     "succeed" in {
       val result: Option[Post] = await(service.findByIdx(1))
 
-      result.head.contents mustBe "new contents"
+      result.head.contents mustBe "first contents"
     }
 
     "does not found when wrong the idx" in {
@@ -58,7 +58,7 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
     "succeed" in {
       val result: Option[Post] = await(service.findByIdxAndOwner(1, 1))
 
-      result.head.contents mustBe "new contents"
+      result.head.contents mustBe "first contents"
     }
 
     "does not found when wrong the idx" in {
@@ -76,13 +76,13 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
   "update(idx, owner, contents)" should {
     "succeed" in {
-      val beforeFindAll: Seq[Post] = await(service.findAll(1))
+      val beforeFindAll: Option[Post] = await(service.findByIdx(1))
 
-      beforeFindAll.head.contents mustBe "new contents"
+      beforeFindAll.head.contents mustBe "first contents"
 
       await(service.update(1, 1, "update contents"))
 
-      val afterFindAll: Seq[Post] = await(service.findAll(1))
+      val afterFindAll: Option[Post] = await(service.findByIdx(1))
 
       afterFindAll.head.contents mustBe "update contents"
     }
@@ -90,20 +90,20 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
     "fail if not exists the post" in {
       val beforeFindAll: Seq[Post] = await(service.findAll(1))
 
-      beforeFindAll.head.contents mustBe "new contents"
+      beforeFindAll.head.contents mustBe "first contents"
 
       an[NotFoundException] should be thrownBy {
-        await(service.update(2, 1, "update contents"))
+        await(service.update(100, 1, "update contents"))
       }
     }
 
     "fail if the owner is not the author of the posting" in {
       val beforeFindAll: Seq[Post] = await(service.findAll(1))
 
-      beforeFindAll.head.contents mustBe "new contents"
+      beforeFindAll.head.contents mustBe "first contents"
 
       an[InvalidCredentialsException] should be thrownBy {
-        await(service.update(1, 2, "update contents"))
+        await(service.update(1, 100, "update contents"))
       }
     }
   }
