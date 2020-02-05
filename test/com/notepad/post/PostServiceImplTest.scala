@@ -88,20 +88,12 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
     }
 
     "fail if not exists the post" in {
-      val beforeFindAll: Seq[Post] = await(service.findAll(1))
-
-      beforeFindAll.head.contents mustBe "first contents"
-
       an[NotFoundException] should be thrownBy {
         await(service.update(100, 1, "update contents"))
       }
     }
 
     "fail if the owner is not the author of the posting" in {
-      val beforeFindAll: Seq[Post] = await(service.findAll(1))
-
-      beforeFindAll.head.contents mustBe "first contents"
-
       an[InvalidCredentialsException] should be thrownBy {
         await(service.update(1, 100, "update contents"))
       }
