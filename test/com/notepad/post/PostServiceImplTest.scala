@@ -99,4 +99,30 @@ class PostServiceImplTest extends PlaySpec with SupportDatabaseTest {
       }
     }
   }
+
+  "delete(idx, owner)" should {
+    "succeed" in {
+      val beforeFindAll: Option[Post] = await(service.findByIdx(1))
+
+      beforeFindAll.size mustBe 1
+
+      await(service.delete(1, 1))
+
+      val afterFindAll: Option[Post] = await(service.findByIdx(1))
+
+      afterFindAll.size mustBe 0
+    }
+
+    "fail if not exists the post" in {
+      an[NotFoundException] should be thrownBy {
+        await(service.delete(100, 1))
+      }
+    }
+
+    "fail if the owner is not the author of the posting" in {
+      an[InvalidCredentialsException] should be thrownBy {
+        await(service.delete(1, 100))
+      }
+    }
+  }
 }
