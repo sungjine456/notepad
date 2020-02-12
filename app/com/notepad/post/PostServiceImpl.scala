@@ -31,19 +31,19 @@ class PostServiceImpl @Inject()(dao: PostDao,
 
   override def findAll(owner: Long): Future[Seq[Post]] = {
     db run {
-      posts.filter(post => post.owner === owner).result
+      posts.filter(post => post.owner === owner && !post.removed).result
     }
   }
 
   override def findByIdx(idx: Long): Future[Option[Post]] = {
     db run {
-      posts.filter(_.idx === idx).result.headOption
+      posts.filter(post => post.idx === idx && !post.removed).result.headOption
     }
   }
 
   override def findByIdxAndOwner(idx: Long, owner: Long): Future[Option[Post]] = {
     db run {
-      posts.filter(posts => posts.idx === idx && posts.owner === owner).result.headOption
+      posts.filter(post => post.idx === idx && post.owner === owner && !post.removed).result.headOption
     }
   }
 

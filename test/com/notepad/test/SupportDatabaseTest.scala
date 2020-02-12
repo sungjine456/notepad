@@ -36,6 +36,7 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with Conf
         _ <- addPost(1, 1, "first contents")
         _ <- addPost(2, 1, "second contents")
         _ <- addPost(3, 2, "other first contents")
+        _ <- addPost(4, 1, "removed contents", removed = true)
       } yield {}
     }
   }
@@ -69,13 +70,13 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with Conf
     db.run(result.transactionally)
   }
 
-  private def addPost(idx: Long, owner: Long, contents: String) = {
+  private def addPost(idx: Long, owner: Long, contents: String, removed: Boolean = false) = {
     val result = for {
       _ <- sequences.filter(_.id === "Post").map(_.value).update(idx + 1)
       add <- {
         val rows = posts returning posts.map(_.idx) into ((post, idx) => post.copy(idx = idx))
 
-        rows += Post(idx, owner, contents, None, new Date(), removed = false)
+        rows += Post(idx, owner, contents, None, new Date(), removed)
       }
     } yield add
 
