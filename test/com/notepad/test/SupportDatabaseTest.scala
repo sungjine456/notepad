@@ -2,11 +2,13 @@ package com.notepad.test
 
 import java.util.Date
 
-import com.notepad.common.SequenceDao
+import com.mohiva.play.silhouette.api.util.Clock
+import com.notepad.common.{SequenceDao, SequenceService}
 import com.notepad.post.{Post, PostDao}
 import com.notepad.security.PasswordHasherImpl.Separator
 import com.notepad.user.{User, UserDao}
 import org.scalatest.{BeforeAndAfterEach, Suite}
+import play.api.Application
 
 trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with ConfigurationTest {
   this: Suite =>
@@ -14,6 +16,10 @@ trait SupportDatabaseTest extends DatabaseTest with BeforeAndAfterEach with Conf
   val userDao = new UserDao(provider)
   val postDao = new PostDao(provider)
   val sequenceDao = new SequenceDao(provider)
+
+  val sequenceService = new SequenceService(sequenceDao)
+
+  val clock: Clock = Application.instanceCache[Clock].apply(application)
 
   import dbConfig.db
   import dbConfig.profile.api._

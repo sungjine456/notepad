@@ -7,13 +7,7 @@ import org.scalatestplus.play.PlaySpec
 
 class UserServiceImplTest extends PlaySpec with SupportDatabaseTest {
 
-  val service: UserService = {
-    val sequenceDao = new SequenceDao(provider)
-
-    val sequenceService = new SequenceService(sequenceDao)
-
-    new UserServiceImpl(userDao, sequenceService, hasher)
-  }
+  val service: UserService = new UserServiceImpl(userDao, sequenceService, hasher)
 
   "create(id: String, password: String)" should {
     "succeed" in {
