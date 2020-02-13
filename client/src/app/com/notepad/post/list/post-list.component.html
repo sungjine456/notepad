@@ -16,7 +16,10 @@
         <td class="content">{{post.contents}}</td>
         <td>{{this.datePipe.transform(post.registered, 'yyyy/MM/dd')}}</td>
         <td>{{this.datePipe.transform(post.updated, 'yyyy/MM/dd')}}</td>
-        <td><button routerLink="/postUpdate" [queryParams]="{idx: post.idx}">수정</button></td>
+        <td>
+          <button routerLink="/postUpdate" [queryParams]="{idx: post.idx}">수정</button>
+          <button (click)="remove(post.idx)">삭제</button>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -8,4 +8,5 @@ GET         /api/auth/signOut       com.notepad.security.SecurityController.sign
 GET         /post/:idx              com.notepad.post.PostController.find(idx: Int)
 POST        /post                   com.notepad.post.PostController.registered
 POST        /post/:idx              com.notepad.post.PostController.updated(idx: Int)
+DELETE      /post/:idx              com.notepad.post.PostController.delete(idx: Int)
 GET         /posts                  com.notepad.post.PostController.posts

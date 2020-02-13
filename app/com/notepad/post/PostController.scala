@@ -49,6 +49,15 @@ class PostController @Inject()(implicit ec: ExecutionContext,
       case _: InvalidCredentialsException => Forbidden
     }
   }
+
+  def delete(idx: Int): Action[AnyContent] = SecuredAction async { implicit request =>
+    service.delete(idx, request.identity.id) map { _ =>
+      Ok
+    } recover {
+      case _: NotFoundException => NotFound
+      case _: InvalidCredentialsException => Forbidden
+    }
+  }
 }
 
 object PostForms {

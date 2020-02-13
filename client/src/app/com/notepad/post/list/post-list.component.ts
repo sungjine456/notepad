@@ -25,4 +25,12 @@ export class PostListComponent implements OnInit {
       this.posts = data;
     });
   }
+
+  remove(idx: number) {
+    const res = this.httpClient.delete(environment.server_url + "/post/" + idx);
+
+    res.subscribe(() => {
+      this.posts = this.posts.filter(v => v.idx !== idx);
+    });
+  }
 }
